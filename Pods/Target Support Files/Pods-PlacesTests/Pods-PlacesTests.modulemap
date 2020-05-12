@@ -1,0 +1,6 @@
+framework module Pods_PlacesTests {
+  umbrella header "Pods-PlacesTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
