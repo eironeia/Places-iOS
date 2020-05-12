@@ -3,6 +3,5 @@
 
 import Foundation
 
-struct PlacesCoordinator {
-    
-}
+typealias VoidClosure = () -> Void
+typealias InputClosure<T> = (T) -> Void

@@ -4,6 +4,10 @@
 import UIKit
 
 final class PlacesViewController: UIViewController {
+    deinit {
+        debugPrint("\(PlacesViewController.self) deinit called")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
