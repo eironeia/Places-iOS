@@ -6,7 +6,9 @@ target 'Places' do
   use_frameworks!
 
   # Pods for Places
-
+  pod 'RxSwift', '~> 5'
+  pod 'RxCocoa', '~> 5'
+  
   target 'PlacesTests' do
     inherit! :search_paths
     # Pods for testing
