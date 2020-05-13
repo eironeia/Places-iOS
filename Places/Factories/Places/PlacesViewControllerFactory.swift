@@ -5,6 +5,9 @@ import UIKit
 
 struct PlacesViewControllerFactory: PlacesViewControllerFactoryInterface {
     func makePlacesViewController() -> UIViewController {
-        PlacesViewController()
+        PlacesViewController(
+            locationAuthorizationHandler: PlacesLocationAuthorizationHandler(),
+            alertFactory: PlacesAlertFactory()
+        )
     }
 }

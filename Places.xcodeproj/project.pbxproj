@@ -3,17 +3,20 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		3CC9EBE97446E9A3D045A296 /* Pods_Places.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA79768EFCDF256C9A08C43A /* Pods_Places.framework */; };
 		76B37B63DE1AC956D7EC266E /* Pods_PlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6370E17B4A2E428D4CD08EA /* Pods_PlacesTests.framework */; };
+		9819371C246B6A79009DBE21 /* PlacesLocationAuthorizationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9819371B246B6A79009DBE21 /* PlacesLocationAuthorizationHandler.swift */; };
+		9819371E246B6D81009DBE21 /* Rx+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9819371D246B6D81009DBE21 /* Rx+Extension.swift */; };
 		981B51C1246AC3930092D9DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981B51C0246AC3930092D9DD /* AppDelegate.swift */; };
 		981B51C5246AC3930092D9DD /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981B51C4246AC3930092D9DD /* PlacesViewController.swift */; };
 		981B51CA246AC3950092D9DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 981B51C9246AC3950092D9DD /* Assets.xcassets */; };
 		981B51CD246AC3950092D9DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 981B51CB246AC3950092D9DD /* LaunchScreen.storyboard */; };
 		981B51D8246AC3950092D9DD /* PlacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981B51D7246AC3950092D9DD /* PlacesTests.swift */; };
+		983D6D09246B4AF70089BE07 /* PlacesAlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983D6D08246B4AF70089BE07 /* PlacesAlertFactory.swift */; };
 		9888DB6A246AD7C400CCAE62 /* PlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */; };
 		9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */; };
 		9888DB6E246AD83B00CCAE62 /* PlacesRespository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB6D246AD83B00CCAE62 /* PlacesRespository.swift */; };
@@ -36,6 +39,8 @@
 		5262E1BEAA2A40C0AF49043D /* Pods-Places.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Places.debug.xcconfig"; path = "Target Support Files/Pods-Places/Pods-Places.debug.xcconfig"; sourceTree = "<group>"; };
 		741F7CCE0E2F19820935898C /* Pods-PlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		857F77603D44C03B03CC475C /* Pods-Places.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Places.release.xcconfig"; path = "Target Support Files/Pods-Places/Pods-Places.release.xcconfig"; sourceTree = "<group>"; };
+		9819371B246B6A79009DBE21 /* PlacesLocationAuthorizationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesLocationAuthorizationHandler.swift; sourceTree = "<group>"; };
+		9819371D246B6D81009DBE21 /* Rx+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+Extension.swift"; sourceTree = "<group>"; };
 		981B51BD246AC3930092D9DD /* Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Places.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		981B51C0246AC3930092D9DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		981B51C4246AC3930092D9DD /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +50,7 @@
 		981B51D3246AC3950092D9DD /* PlacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlacesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		981B51D7246AC3950092D9DD /* PlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTests.swift; sourceTree = "<group>"; };
 		981B51D9246AC3950092D9DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		983D6D08246B4AF70089BE07 /* PlacesAlertFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAlertFactory.swift; sourceTree = "<group>"; };
 		9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewModel.swift; sourceTree = "<group>"; };
 		9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesCoordinator.swift; sourceTree = "<group>"; };
 		9888DB6D246AD83B00CCAE62 /* PlacesRespository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesRespository.swift; sourceTree = "<group>"; };
@@ -126,10 +132,19 @@
 			path = PlacesTests;
 			sourceTree = "<group>";
 		};
-		9888DB71246ADC6B00CCAE62 /* Factories */ = {
+		983D6D0A246B4AFB0089BE07 /* Places */ = {
 			isa = PBXGroup;
 			children = (
 				9888DB73246ADC8700CCAE62 /* PlacesViewControllerFactory.swift */,
+				983D6D08246B4AF70089BE07 /* PlacesAlertFactory.swift */,
+			);
+			path = Places;
+			sourceTree = "<group>";
+		};
+		9888DB71246ADC6B00CCAE62 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				983D6D0A246B4AFB0089BE07 /* Places */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -145,6 +160,7 @@
 		9888DB78246AE09A00CCAE62 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9819371D246B6D81009DBE21 /* Rx+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -180,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				9888DB6F246ADB7B00CCAE62 /* PlacesInterfaces.swift */,
+				9819371B246B6A79009DBE21 /* PlacesLocationAuthorizationHandler.swift */,
 				9888DB72246ADC7100CCAE62 /* Coordinators */,
 				9888DB6D246AD83B00CCAE62 /* PlacesRespository.swift */,
 				9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */,
@@ -369,7 +386,10 @@
 				9888DB74246ADC8700CCAE62 /* PlacesViewControllerFactory.swift in Sources */,
 				9888DB6A246AD7C400CCAE62 /* PlacesViewModel.swift in Sources */,
 				981B51C5246AC3930092D9DD /* PlacesViewController.swift in Sources */,
+				9819371C246B6A79009DBE21 /* PlacesLocationAuthorizationHandler.swift in Sources */,
+				983D6D09246B4AF70089BE07 /* PlacesAlertFactory.swift in Sources */,
 				9888DB7B246AE0C800CCAE62 /* Miscelaneous.swift in Sources */,
+				9819371E246B6D81009DBE21 /* Rx+Extension.swift in Sources */,
 				9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */,
 				981B51C1246AC3930092D9DD /* AppDelegate.swift in Sources */,
 				9888DB6E246AD83B00CCAE62 /* PlacesRespository.swift in Sources */,
