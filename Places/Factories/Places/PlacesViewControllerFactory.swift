@@ -8,7 +8,7 @@ struct PlacesViewControllerFactory: PlacesViewControllerFactoryInterface {
         PlacesViewController(
             locationAuthorizationHandler: PlacesLocationAuthorizationHandler(),
             alertFactory: PlacesAlertFactory(),
-            viewModel: PlacesViewModel()
+            viewModel: PlacesViewModel(repository: PlacesRepository())
         )
     }
 }

@@ -14,9 +14,26 @@ final class PlacesViewController: UIViewController {
     private let locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface
     private let alertFactory: PlacesAlertFactoryInterface
     private let viewModel: PlacesViewModelInterface
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableFooterView = UIView()
+        tableView.refreshControl = UIRefreshControl()
+        tableView.estimatedRowHeight = 64
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.backgroundColor = .white
+        tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.identifier)
+        return tableView
+    }()
     private lazy var disposeBag = DisposeBag()
 
     private let eventSubject = PublishSubject<PlacesViewModel.Event>()
+    private var dataSource: [PlaceCellViewModelInterface] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     init(
         locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface,
@@ -35,16 +52,46 @@ final class PlacesViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .green
-        handleLocationAuthorization()
-        bindViewModel()
+        setup()
         eventSubject.onNext(.fetchPlaces)
+    }
+}
+
+}
+
+//MARK - TableView DataSource
+extension PlacesViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        dataSource.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlaceCell.identifier) as? PlaceCell else {
+            return nonFatalError(message: "Cell has not been registered.")
+        }
+        guard let viewModel = dataSource[safe: indexPath.row] else {
+            return nonFatalError(message: "Index out of bounds.")
+        }
+        cell.setup(viewModel: viewModel)
+        return cell
     }
 }
 
 //MARK: - Private methods
 private extension PlacesViewController {
+    func setup() {
+        setupLayout()
+        setupLocationAuthorization()
+        bindEvents()
+    }
+
+    func setupLayout() {
+        view.addSubview(tableView)
+        tableView.fillSuperview()
+    }
+
     //MARK: Location handling
-    func handleLocationAuthorization() {
+    func setupLocationAuthorization() {
         locationAuthorizationHandler.checkLocationServices()
         locationAuthorizationHandler
             .locationStatusSubject
@@ -98,10 +145,9 @@ private extension PlacesViewController {
     }
 
     //MARK: ViewModel
-    func bindViewModel() {
-        let state = viewModel.transform(event: eventSubject)
-
-        state
+    func bindEvents() {
+        viewModel
+            .transform(event: eventSubject)
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] state in
                 self?.handle(state: state)
@@ -111,5 +157,17 @@ private extension PlacesViewController {
 
     func handle(state: PlacesViewModel.State) {
         print(state)
+        switch state {
+        case let .places(viewModels):
+            dataSource = viewModels
+        default:
+            break
+        }
+    }
+
+    //Monitoring example:
+    func nonFatalError(message: String) -> UITableViewCell {
+        assertionFailure(message)
+        return UITableViewCell()
     }
 }

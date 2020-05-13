@@ -15,12 +15,17 @@ struct PlacesViewModel: PlacesViewModelInterface {
 
     enum State {
         case isLoading(Bool)
-        case places([Int])
+        case places([PlaceCellViewModelInterface])
         case error(ErrorType)
     }
 
+    private let repository: PlacesRepositoryInterface
     private let isLoadingSubject = PublishSubject<Bool>()
     private let errorSubject = PublishSubject<ErrorType>()
+
+    init(repository: PlacesRepositoryInterface) {
+        self.repository = repository
+    }
 
     func transform(event: Observable<Event>) -> Observable<State> {
         let places = event.flatMapLatest(handleEvent)
@@ -45,10 +50,11 @@ private extension PlacesViewModel {
 
     func handleFetchPlaces() -> Observable<State> {
         isLoadingSubject.onNext(true)
-        return Single<[Int]>
-            .just([1,2,3])
+        return repository
+            .getPlaces()
             .asObservable()
             .stopLoading(loadingSubject: isLoadingSubject)
-            .map ({ .places($0) })
+            .map({ $0.map(PlaceCellViewModel.init) })
+            .map({ .places($0) })
     }
 }
