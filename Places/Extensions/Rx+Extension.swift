@@ -21,7 +21,6 @@ extension SharedSequenceConvertibleType {
 }
 
 extension ObservableType {
-
     func catchErrorJustComplete() -> Observable<Element> {
         return catchError { _ in
             return Observable.empty()
@@ -36,5 +35,11 @@ extension ObservableType {
 
     func mapToVoid() -> Observable<Void> {
         return map { _ in }
+    }
+
+    func stopLoading(loadingSubject: PublishSubject<Bool>) -> Observable<Element> {
+        self
+            .do(onNext: { _ in loadingSubject.onNext(false) },
+                onError: { _ in loadingSubject.onNext(false) })
     }
 }

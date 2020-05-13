@@ -7,7 +7,8 @@ struct PlacesViewControllerFactory: PlacesViewControllerFactoryInterface {
     func makePlacesViewController() -> UIViewController {
         PlacesViewController(
             locationAuthorizationHandler: PlacesLocationAuthorizationHandler(),
-            alertFactory: PlacesAlertFactory()
+            alertFactory: PlacesAlertFactory(),
+            viewModel: PlacesViewModel()
         )
     }
 }

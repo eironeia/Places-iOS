@@ -27,3 +27,8 @@ protocol PlacesViewControllerFactoryInterface  {
 protocol PlacesCoordinatorInterface {
     func toPlaces()
 }
+
+//MARK: - PlacesViewModel
+protocol PlacesViewModelInterface {
+    func transform(event: Observable<PlacesViewModel.Event>) -> Observable<PlacesViewModel.State>
+}

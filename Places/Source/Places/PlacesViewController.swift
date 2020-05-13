@@ -12,14 +12,20 @@ final class PlacesViewController: UIViewController {
     }
 
     private let locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface
-
     private let alertFactory: PlacesAlertFactoryInterface
+    private let viewModel: PlacesViewModelInterface
     private lazy var disposeBag = DisposeBag()
 
-    init(locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface,
-         alertFactory: PlacesAlertFactoryInterface) {
+    private let eventSubject = PublishSubject<PlacesViewModel.Event>()
+
+    init(
+        locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface,
+        alertFactory: PlacesAlertFactoryInterface,
+        viewModel: PlacesViewModelInterface
+    ) {
         self.locationAuthorizationHandler = locationAuthorizationHandler
         self.alertFactory = alertFactory
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -30,6 +36,8 @@ final class PlacesViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .green
         handleLocationAuthorization()
+        bindViewModel()
+        eventSubject.onNext(.fetchPlaces)
     }
 }
 
@@ -61,16 +69,18 @@ private extension PlacesViewController {
     }
 
     func handleRestrictedLocationAlert() {
-        let action: InputClosure<UIAlertAction> = { _ in
+        let action: InputClosure<UIAlertAction> = { [weak self] _ in
             print("Ok pressed -> dismissed")
+            self?.view.backgroundColor = .blue
         }
         let alert = alertFactory.makeRestrictedAlert(action: action)
         present(alert, animated: true, completion: nil)
     }
 
     func handleDeniedLocationStatus() {
-        let okAction: InputClosure<UIAlertAction> = { _ in
+        let okAction: InputClosure<UIAlertAction> = { [weak self] _ in
             print("Ok pressed -> dismissed")
+            self?.view.backgroundColor = .red
         }
 
         let goSettingsAction: InputClosure<UIAlertAction> = { [weak self] _ in
@@ -85,5 +95,21 @@ private extension PlacesViewController {
         guard let url = URL(string:UIApplication.openSettingsURLString) else { return assertionFailure("URL can not be found") }
         guard UIApplication.shared.canOpenURL(url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
+    //MARK: ViewModel
+    func bindViewModel() {
+        let state = viewModel.transform(event: eventSubject)
+
+        state
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] state in
+                self?.handle(state: state)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    func handle(state: PlacesViewModel.State) {
+        print(state)
     }
 }
