@@ -11,11 +11,13 @@ final class PlacesViewController: UIViewController {
         debugPrint("\(PlacesViewController.self) deinit called")
     }
 
+    private var finishedLoadingInitialTableCells = false
     private let locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface
     private let alertFactory: PlacesAlertFactoryInterface
     private let viewModel: PlacesViewModelInterface
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.refreshControl = UIRefreshControl()
@@ -58,7 +60,7 @@ final class PlacesViewController: UIViewController {
 }
 
 //MARK - TableView DataSource
-extension PlacesViewController: UITableViewDataSource {
+extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataSource.count
     }
@@ -72,6 +74,22 @@ extension PlacesViewController: UITableViewDataSource {
         }
         cell.setup(viewModel: viewModel)
         return cell
+    }
+
+
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard !finishedLoadingInitialTableCells else { return }
+        finishedLoadingInitialTableCells = !dataSource.isEmpty
+            && !finishedLoadingInitialTableCells
+            && tableView.indexPathsForVisibleRows?.last?.row == indexPath.row
+        cell.transform = CGAffineTransform(translationX: 0, y: 20)
+        cell.alpha = 0
+
+        UIView.animate(withDuration: 0.5, delay: 0.05*Double(indexPath.row), options: [.curveEaseInOut], animations: {
+            cell.transform = CGAffineTransform(translationX: 0, y: 0)
+            cell.alpha = 1
+        }, completion: nil)
     }
 }
 
