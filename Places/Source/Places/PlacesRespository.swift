@@ -10,10 +10,39 @@ protocol PlacesRepositoryInterface {
 
 struct PlacesRepository: PlacesRepositoryInterface {
     func getPlaces() -> Single<[Place]> {
-        .just([
-            Place(name: "Alex", openNow: true, rating: 4),
-            Place(name: "Sam", openNow: true, rating: 1.9),
-            Place(name: "Anton", openNow: false, rating: 2.3)
-        ])
+        .just(getPlacesFromMock().places)
+    }
+}
+
+private extension PlacesRepository {
+    func getPlacesFromMock() -> GetPlacesResponse {
+        let bundle = Bundle.mockAPI
+        let file = "getPlacesResponse"
+        let fileExtension = "json"
+        guard let filePath = bundle.url(forResource: file, withExtension: fileExtension) else {
+            fatalError("Cannot find the resource \(file).\(fileExtension) at bundle \(bundle.bundlePath)" )
+        }
+
+        do {
+            let data = try Data(contentsOf: filePath)
+            let decoder = JSONDecoder()
+            let getPlacesResponse = try decoder.decode(GetPlacesResponse.self, from: data)
+            print(getPlacesResponse)
+            return getPlacesResponse
+        } catch {
+            print(error)
+            fatalError()
+        }
+    }
+}
+
+
+extension Bundle {
+    public class var mockAPI: Bundle {
+        guard let bundlePath = Bundle.main.path(forResource: "MockAPI", ofType: "bundle"),
+            let bundle = Bundle(path: bundlePath) else {
+                fatalError()
+        }
+        return bundle
     }
 }

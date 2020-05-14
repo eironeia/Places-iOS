@@ -22,6 +22,7 @@ final class PlacesViewController: UIViewController {
         tableView.estimatedRowHeight = 64
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = .white
+        tableView.separatorStyle = .none
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.identifier)
         return tableView
     }()

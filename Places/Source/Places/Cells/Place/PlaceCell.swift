@@ -5,22 +5,26 @@ import UIKit
 
 final class PlaceCell: UITableViewCell {
 
-    private let cardView: UIView = {
+    private let viewRadius: CGFloat = 8
+
+    private lazy var cardShadowView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 4
-        //Replace for shadow
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1
+        view.backgroundColor = .clear
         return view
     }()
 
-    private let openNow: UILabel = {
+    private lazy var cardView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = viewRadius
+        view.layer.masksToBounds = true
+        return view
+    }()
+
+    private let availability: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18)
-        label.textColor = .black
-        label.text = "Closed"
-        label.backgroundColor = .green
+        label.textColor = .white
         label.textAlignment = .center
         return label
     }()
@@ -64,6 +68,14 @@ final class PlaceCell: UITableViewCell {
         return label
     }()
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        cardShadowView.layer.shadowPath = UIBezierPath(rect: cardShadowView.bounds).cgPath
+        cardShadowView.layer.shadowRadius = viewRadius
+        cardShadowView.layer.shadowOffset = .zero
+        cardShadowView.layer.shadowOpacity = 0.2
+    }
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -75,7 +87,9 @@ final class PlaceCell: UITableViewCell {
     }
 
     func setup(viewModel: PlaceCellViewModelInterface) {
-        self.backgroundColor = .red
+        setup(availability: viewModel.availability)
+        placeName.text = viewModel.name
+        setup(rating: viewModel.rating)
     }
 }
 
@@ -85,19 +99,21 @@ private extension PlaceCell {
     }
 
     func setupLayout() {
-        addSubviewWithAutolayout(cardView)
-        cardView.fillSuperview(
-            withEdges: .init(
-                top: Spacing.default,
-                left: Spacing.default,
-                bottom: Spacing.default,
-                right: Spacing.default
+        [cardShadowView, cardView].forEach({
+            addSubviewWithAutolayout($0)
+            $0.fillSuperview(
+                withEdges: .init(
+                    top: Spacing.double,
+                    left: Spacing.default,
+                    bottom: Spacing.double,
+                    right: Spacing.default
+                )
             )
-        )
+        })
 
-        [openNow, cardContentContainer].forEach(cardView.addSubviewWithAutolayout)
+        [availability, cardContentContainer].forEach(cardView.addSubviewWithAutolayout)
 
-        openNow.anchor(
+        availability.anchor(
             top: cardView.topAnchor,
             left: cardView.leftAnchor,
             right: cardView.rightAnchor,
@@ -105,7 +121,7 @@ private extension PlaceCell {
         )
 
         cardContentContainer.anchor(
-            top: openNow.bottomAnchor,
+            top: availability.bottomAnchor,
             left: cardView.leftAnchor,
             bottom: cardView.bottomAnchor,
             right: cardView.rightAnchor,
@@ -117,5 +133,23 @@ private extension PlaceCell {
 
         [placeName,ratingContainer].forEach(cardContentContainer.addArrangedSubview)
         [ratingTitle, ratingValue].forEach(ratingContainer.addArrangedSubview)
+    }
+
+    func setup(availability: PlaceCellViewModel.Availability) {
+        self.availability.text = availability.rawValue
+        switch availability {
+        case .open: self.availability.backgroundColor = .green
+        case .closed: self.availability.backgroundColor = .red
+        case .unknown: self.availability.backgroundColor = .gray
+        }
+    }
+
+    func setup(rating: Double?) {
+        ratingTitle.text = "Ratings"
+        if let rating = rating {
+            ratingValue.text = "\(rating)"
+        } else {
+            ratingValue.text = "-"
+        }
     }
 }

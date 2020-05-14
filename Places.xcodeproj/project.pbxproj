@@ -30,6 +30,7 @@
 		9888DB74246ADC8700CCAE62 /* PlacesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB73246ADC8700CCAE62 /* PlacesViewControllerFactory.swift */; };
 		9888DB7B246AE0C800CCAE62 /* Miscelaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB7A246AE0C800CCAE62 /* Miscelaneous.swift */; };
 		98DCCCD7246C527D0063C049 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCD6246C527D0063C049 /* Spacing.swift */; };
+		98DCCCD9246D33440063C049 /* MockAPI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 98DCCCD8246D33440063C049 /* MockAPI.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		9888DB73246ADC8700CCAE62 /* PlacesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewControllerFactory.swift; sourceTree = "<group>"; };
 		9888DB7A246AE0C800CCAE62 /* Miscelaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscelaneous.swift; sourceTree = "<group>"; };
 		98DCCCD6246C527D0063C049 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		98DCCCD8246D33440063C049 /* MockAPI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockAPI.bundle; sourceTree = "<group>"; };
 		98F92BFCD03F850C5D7C3CCF /* Pods-PlacesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.release.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.release.xcconfig"; sourceTree = "<group>"; };
 		CA79768EFCDF256C9A08C43A /* Pods_Places.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Places.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6370E17B4A2E428D4CD08EA /* Pods_PlacesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlacesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +225,7 @@
 				981B51C9246AC3950092D9DD /* Assets.xcassets */,
 				981B51CB246AC3950092D9DD /* LaunchScreen.storyboard */,
 				981B51CE246AC3950092D9DD /* Info.plist */,
+				98DCCCD8246D33440063C049 /* MockAPI.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				981B51CD246AC3950092D9DD /* LaunchScreen.storyboard in Resources */,
+				98DCCCD9246D33440063C049 /* MockAPI.bundle in Resources */,
 				981B51CA246AC3950092D9DD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
