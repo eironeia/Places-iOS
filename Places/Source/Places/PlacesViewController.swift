@@ -33,6 +33,7 @@ final class PlacesViewController: UIViewController {
     private let eventSubject = PublishSubject<PlacesViewModel.Event>()
     private var dataSource: [PlaceCellViewModelInterface] = [] {
         didSet {
+            finishedLoadingInitialTableCells = false
             tableView.reloadData()
         }
     }
@@ -96,6 +97,9 @@ extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
 //MARK: - Private methods
 private extension PlacesViewController {
     func setup() {
+        let add = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = add
+
         setupLayout()
         setupLocationAuthorization()
         bindEvents()
@@ -172,6 +176,7 @@ private extension PlacesViewController {
     }
 
     func handle(state: PlacesViewModel.State) {
+        print(state)
         switch state {
         case let .places(viewModels):
             dataSource = viewModels
@@ -184,5 +189,10 @@ private extension PlacesViewController {
     func nonFatalError(message: String) -> UITableViewCell {
         assertionFailure(message)
         return UITableViewCell()
+    }
+
+    @objc
+    func addTapped() {
+        eventSubject.onNext(.changeSortCriteria(.availability))
     }
 }
