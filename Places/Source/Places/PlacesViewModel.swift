@@ -7,6 +7,12 @@ import RxSwift
 struct PlacesViewModel: PlacesViewModelInterface {
     enum ErrorType {
         case unknown
+
+        var information: (title: String, message: String) {
+            switch self {
+            case .unknown: return ("Oops!", "Something went wrong.")
+            }
+        }
     }
 
     enum Event {
@@ -53,7 +59,6 @@ private extension PlacesViewModel {
 
     //MARK: Event handling
     func handleEvent(event: Event) -> Observable<State> {
-        print(event)
         switch event {
         case .fetchPlaces:
             return getStateForFetchPlacesEvent()

@@ -39,4 +39,19 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
 
         return alert
     }
+
+    func makeErrorAlert(error: PlacesViewModel.ErrorType) -> UIAlertController {
+
+        let (title, message) = error.information
+
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+        
+        return alert
+    }
 }

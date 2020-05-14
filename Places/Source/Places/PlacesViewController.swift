@@ -180,6 +180,9 @@ private extension PlacesViewController {
         switch state {
         case let .places(viewModels):
             dataSource = viewModels
+        case let .error(error):
+            let alert = alertFactory.makeErrorAlert(error: error)
+            present(alert, animated: true, completion: nil)
         default:
             break
         }
