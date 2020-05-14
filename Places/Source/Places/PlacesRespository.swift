@@ -27,7 +27,6 @@ private extension PlacesRepository {
             let data = try Data(contentsOf: filePath)
             let decoder = JSONDecoder()
             let getPlacesResponse = try decoder.decode(GetPlacesResponse.self, from: data)
-            print(getPlacesResponse)
             return getPlacesResponse
         } catch {
             print(error)

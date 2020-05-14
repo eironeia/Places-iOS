@@ -138,9 +138,9 @@ private extension PlaceCell {
     func setup(availability: PlaceCellViewModel.Availability) {
         self.availability.text = availability.rawValue
         switch availability {
-        case .open: self.availability.backgroundColor = .green
-        case .closed: self.availability.backgroundColor = .red
-        case .unknown: self.availability.backgroundColor = .gray
+        case .open: self.availability.backgroundColor = UIColor(red: 0.01, green: 0.75, blue: 0.24, alpha: 1.00)
+        case .closed: self.availability.backgroundColor = UIColor(red: 0.76, green: 0.23, blue: 0.14, alpha: 1.00)
+        case .unknown: self.availability.backgroundColor = UIColor(red: 0.34, green: 0.60, blue: 0.75, alpha: 1.00)
         }
     }
 

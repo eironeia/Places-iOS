@@ -3,6 +3,17 @@
 
 import Foundation
 
+// MARK: - GetPlacesResponse
+struct GetPlacesResponse: Codable {
+    let places: [Place]
+    let status: String
+
+    enum CodingKeys: String, CodingKey {
+        case places = "results"
+        case status
+    }
+}
+
 // MARK: - Result
 struct Place: Codable {
     let geometry: Geometry
