@@ -29,8 +29,13 @@
 		9888DB70246ADB7B00CCAE62 /* PlacesInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB6F246ADB7B00CCAE62 /* PlacesInterfaces.swift */; };
 		9888DB74246ADC8700CCAE62 /* PlacesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB73246ADC8700CCAE62 /* PlacesViewControllerFactory.swift */; };
 		9888DB7B246AE0C800CCAE62 /* Miscelaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB7A246AE0C800CCAE62 /* Miscelaneous.swift */; };
+		98AFB2DA246D7C4300D8C4CA /* CirceRounded-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 98AFB2D7246D7C4300D8C4CA /* CirceRounded-SemiBold.otf */; };
+		98AFB2DB246D7C4300D8C4CA /* CirceRounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 98AFB2D8246D7C4300D8C4CA /* CirceRounded-Bold.otf */; };
+		98AFB2DC246D7C4300D8C4CA /* CirceRounded-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 98AFB2D9246D7C4300D8C4CA /* CirceRounded-Regular.otf */; };
 		98DCCCD7246C527D0063C049 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCD6246C527D0063C049 /* Spacing.swift */; };
 		98DCCCD9246D33440063C049 /* MockAPI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 98DCCCD8246D33440063C049 /* MockAPI.bundle */; };
+		98DCCCDC246D78020063C049 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDB246D78020063C049 /* Colors.swift */; };
+		98DCCCDE246D780D0063C049 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDD246D780D0063C049 /* Fonts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,8 +76,13 @@
 		9888DB6F246ADB7B00CCAE62 /* PlacesInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInterfaces.swift; sourceTree = "<group>"; };
 		9888DB73246ADC8700CCAE62 /* PlacesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewControllerFactory.swift; sourceTree = "<group>"; };
 		9888DB7A246AE0C800CCAE62 /* Miscelaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscelaneous.swift; sourceTree = "<group>"; };
+		98AFB2D7246D7C4300D8C4CA /* CirceRounded-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CirceRounded-SemiBold.otf"; sourceTree = "<group>"; };
+		98AFB2D8246D7C4300D8C4CA /* CirceRounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CirceRounded-Bold.otf"; sourceTree = "<group>"; };
+		98AFB2D9246D7C4300D8C4CA /* CirceRounded-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CirceRounded-Regular.otf"; sourceTree = "<group>"; };
 		98DCCCD6246C527D0063C049 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		98DCCCD8246D33440063C049 /* MockAPI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockAPI.bundle; sourceTree = "<group>"; };
+		98DCCCDB246D78020063C049 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		98DCCCDD246D780D0063C049 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		98F92BFCD03F850C5D7C3CCF /* Pods-PlacesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.release.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.release.xcconfig"; sourceTree = "<group>"; };
 		CA79768EFCDF256C9A08C43A /* Pods_Places.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Places.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6370E17B4A2E428D4CD08EA /* Pods_PlacesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlacesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,6 +216,8 @@
 			children = (
 				9888DB7A246AE0C800CCAE62 /* Miscelaneous.swift */,
 				98DCCCD6246C527D0063C049 /* Spacing.swift */,
+				98DCCCDB246D78020063C049 /* Colors.swift */,
+				98DCCCDD246D780D0063C049 /* Fonts.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -222,6 +234,7 @@
 		988A46E9246AD50C004828D9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				98DCCCDA246D77EE0063C049 /* Fonts */,
 				981B51C9246AC3950092D9DD /* Assets.xcassets */,
 				981B51CB246AC3950092D9DD /* LaunchScreen.storyboard */,
 				981B51CE246AC3950092D9DD /* Info.plist */,
@@ -243,6 +256,16 @@
 				981B51C4246AC3930092D9DD /* PlacesViewController.swift */,
 			);
 			path = Places;
+			sourceTree = "<group>";
+		};
+		98DCCCDA246D77EE0063C049 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				98AFB2D8246D7C4300D8C4CA /* CirceRounded-Bold.otf */,
+				98AFB2D9246D7C4300D8C4CA /* CirceRounded-Regular.otf */,
+				98AFB2D7246D7C4300D8C4CA /* CirceRounded-SemiBold.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		F37FDA2A53803BCDEED44D76 /* Pods */ = {
@@ -342,7 +365,10 @@
 			files = (
 				981B51CD246AC3950092D9DD /* LaunchScreen.storyboard in Resources */,
 				98DCCCD9246D33440063C049 /* MockAPI.bundle in Resources */,
+				98AFB2DB246D7C4300D8C4CA /* CirceRounded-Bold.otf in Resources */,
 				981B51CA246AC3950092D9DD /* Assets.xcassets in Resources */,
+				98AFB2DA246D7C4300D8C4CA /* CirceRounded-SemiBold.otf in Resources */,
+				98AFB2DC246D7C4300D8C4CA /* CirceRounded-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,9 +462,11 @@
 				9888DB7B246AE0C800CCAE62 /* Miscelaneous.swift in Sources */,
 				9819371E246B6D81009DBE21 /* Rx+Extension.swift in Sources */,
 				98DCCCD7246C527D0063C049 /* Spacing.swift in Sources */,
+				98DCCCDC246D78020063C049 /* Colors.swift in Sources */,
 				9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */,
 				981B51C1246AC3930092D9DD /* AppDelegate.swift in Sources */,
 				985ECFF4246C44E900C68861 /* Colection+Extension.swift in Sources */,
+				98DCCCDE246D780D0063C049 /* Fonts.swift in Sources */,
 				985ECFF2246C421300C68861 /* UIView+Extensions.swift in Sources */,
 				9888DB6E246AD83B00CCAE62 /* PlacesRespository.swift in Sources */,
 				9888DB70246ADB7B00CCAE62 /* PlacesInterfaces.swift in Sources */,

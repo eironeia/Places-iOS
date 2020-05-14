@@ -23,7 +23,7 @@ final class PlaceCell: UITableViewCell {
 
     private let availability: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18)
+        label.font = .circleRoundedFont(size: FontSize.double, type: .semiBold)
         label.textColor = .white
         label.textAlignment = .center
         return label
@@ -38,9 +38,8 @@ final class PlaceCell: UITableViewCell {
 
     private let placeName: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18)
+        label.font = .circleRoundedFont(size: FontSize.double, type: .bold)
         label.textColor = .black
-        label.text = "Minagua"
         return label
     }()
 
@@ -54,17 +53,15 @@ final class PlaceCell: UITableViewCell {
 
     private let ratingTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = .circleRoundedFont(size: FontSize.small, type: .regular)
         label.textColor = .black
-        label.text = "Rating"
         return label
     }()
 
     private let ratingValue: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
+        label.font = .circleRoundedFont(size: FontSize.default, type: .semiBold)
         label.textColor = .black
-        label.text = "4,8"
         return label
     }()
 
@@ -138,9 +135,9 @@ private extension PlaceCell {
     func setup(availability: PlaceCellViewModel.Availability) {
         self.availability.text = availability.rawValue
         switch availability {
-        case .open: self.availability.backgroundColor = UIColor(red: 0.01, green: 0.75, blue: 0.24, alpha: 1.00)
-        case .closed: self.availability.backgroundColor = UIColor(red: 0.76, green: 0.23, blue: 0.14, alpha: 1.00)
-        case .unknown: self.availability.backgroundColor = UIColor(red: 0.34, green: 0.60, blue: 0.75, alpha: 1.00)
+        case .open: self.availability.backgroundColor = .customGreen
+        case .closed: self.availability.backgroundColor = .customRed
+        case .unknown: self.availability.backgroundColor = .customBlue
         }
     }
 

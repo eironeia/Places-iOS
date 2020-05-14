@@ -172,7 +172,6 @@ private extension PlacesViewController {
     }
 
     func handle(state: PlacesViewModel.State) {
-        print(state)
         switch state {
         case let .places(viewModels):
             dataSource = viewModels

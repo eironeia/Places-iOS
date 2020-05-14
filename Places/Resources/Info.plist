@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to suggest you the most wonderful places around you</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -38,6 +36,14 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to suggest you the most wonderful places around you</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>CirceRounded-Regular.otf</string>
+		<string>CirceRounded-SemiBold.otf</string>
+		<string>CirceRounded-Bold.otf</string>
 	</array>
 </dict>
 </plist>
