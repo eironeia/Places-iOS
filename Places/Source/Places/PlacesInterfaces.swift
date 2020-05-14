@@ -21,12 +21,14 @@ protocol PlacesLocationAuthorizationHandlerInterface {
 
 //MARK: - ViewController Factory
 protocol PlacesViewControllerFactoryInterface  {
-    func makePlacesViewController() -> UIViewController
+    func makePlacesViewController(router: PlacesCoordinatorInterface) -> UIViewController
+    func makePlaceDetailsViewController() -> UIViewController
 }
 
 //MARK: - Coordinator Factory
 protocol PlacesCoordinatorInterface {
     func toPlaces()
+    func toPlaceDetails()
 }
 
 //MARK: - PlacesViewModel

@@ -40,6 +40,7 @@ final class PlaceCell: UITableViewCell {
         let label = UILabel()
         label.font = .circleRoundedFont(size: FontSize.double, type: .bold)
         label.textColor = .black
+        label.numberOfLines = 0
         return label
     }()
 

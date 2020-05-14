@@ -16,7 +16,12 @@ struct PlacesCoordinator: PlacesCoordinatorInterface {
     }
 
     func toPlaces() {
-        let viewController = viewControllerFactory.makePlacesViewController()
+        let viewController = viewControllerFactory.makePlacesViewController(router: self)
+        presenter?.pushViewController(viewController, animated: true)
+    }
+
+    func toPlaceDetails() {
+        let viewController = viewControllerFactory.makePlaceDetailsViewController()
         presenter?.pushViewController(viewController, animated: true)
     }
 }

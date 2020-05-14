@@ -15,6 +15,16 @@ final class PlacesViewController: UIViewController {
     private let locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface
     private let alertFactory: PlacesAlertFactoryInterface
     private let viewModel: PlacesViewModelInterface
+    private lazy var disposeBag = DisposeBag()
+
+    private let eventSubject = PublishSubject<PlacesViewModel.Event>()
+    private var dataSource: [PlaceCellViewModelInterface] = [] {
+        didSet {
+            finishedLoadingInitialTableCells = false
+            tableView.reloadData()
+        }
+    }
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
@@ -25,18 +35,10 @@ final class PlacesViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = .white
         tableView.separatorStyle = .none
+        tableView.alwaysBounceVertical = false
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.identifier)
         return tableView
     }()
-    private lazy var disposeBag = DisposeBag()
-
-    private let eventSubject = PublishSubject<PlacesViewModel.Event>()
-    private var dataSource: [PlaceCellViewModelInterface] = [] {
-        didSet {
-            finishedLoadingInitialTableCells = false
-            tableView.reloadData()
-        }
-    }
 
     init(
         locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface,
@@ -53,8 +55,6 @@ final class PlacesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .green
         setup()
         eventSubject.onNext(.fetchPlaces)
     }
@@ -183,19 +183,21 @@ private extension PlacesViewController {
         case let .error(error):
             let alert = alertFactory.makeErrorAlert(error: error)
             present(alert, animated: true, completion: nil)
+        case .idle: break
         default:
             break
         }
     }
 
-    //Monitoring example:
-    func nonFatalError(message: String) -> UITableViewCell {
-        assertionFailure(message)
-        return UITableViewCell()
-    }
-
     @objc
     func addTapped() {
-        eventSubject.onNext(.changeSortCriteria(.availability))
+//        eventSubject.onNext(.changeSortCriteria(.availability))
+        eventSubject.onNext(.placeTapped(1))
     }
+}
+
+//Monitoring example:
+func nonFatalError(message: String) -> UITableViewCell {
+    assertionFailure(message)
+    return UITableViewCell()
 }

@@ -4,11 +4,15 @@
 import UIKit
 
 struct PlacesViewControllerFactory: PlacesViewControllerFactoryInterface {
-    func makePlacesViewController() -> UIViewController {
+    func makePlacesViewController(router: PlacesCoordinatorInterface) -> UIViewController {
         PlacesViewController(
             locationAuthorizationHandler: PlacesLocationAuthorizationHandler(),
             alertFactory: PlacesAlertFactory(),
-            viewModel: PlacesViewModel(repository: PlacesRepository())
+            viewModel: PlacesViewModel(repository: PlacesRepository(), router: router)
         )
+    }
+
+    func makePlaceDetailsViewController() -> UIViewController {
+        PlaceDetailsViewController(viewModel: PlaceDetailsViewModel())
     }
 }

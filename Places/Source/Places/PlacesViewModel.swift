@@ -18,6 +18,7 @@ struct PlacesViewModel: PlacesViewModelInterface {
     enum Event {
         case fetchPlaces
         case changeSortCriteria(SortingCriteria)
+        case placeTapped(Int) //index
     }
 
     enum State {
@@ -33,13 +34,15 @@ struct PlacesViewModel: PlacesViewModelInterface {
     }
 
     private let repository: PlacesRepositoryInterface
+    private let router: PlacesCoordinatorInterface
     private let isLoadingSubject = PublishSubject<Bool>()
     private let errorSubject = PublishSubject<ErrorType>()
     private var placesSubject = BehaviorSubject<[Place]>(value: [])
     private var sortingCriteriaSubject = BehaviorSubject<SortingCriteria>(value: .rating)
 
-    init(repository: PlacesRepositoryInterface) {
+    init(repository: PlacesRepositoryInterface, router: PlacesCoordinatorInterface) {
         self.repository = repository
+        self.router = router
     }
 
     func transform(event: Observable<Event>) -> Observable<State> {
@@ -64,6 +67,8 @@ private extension PlacesViewModel {
             return getStateForFetchPlacesEvent()
         case let .changeSortCriteria(criteria):
             return getStateForChangeSortCriteria(criteria: criteria)
+        case let .placeTapped(index):
+            return getStateForPlaceTapped(index: index)
         }
     }
 
@@ -74,9 +79,6 @@ private extension PlacesViewModel {
             .do(onSuccess: self.placesSubject.onNext)
             .asObservable()
             .withLatestFrom(sortingCriteriaSubject, resultSelector: sort)
-            .do(onNext: { _ in
-                print("HEEEEY")
-            })
             .stopLoading(loadingSubject: isLoadingSubject)
             .map(mapToPlacesCellViewModel)
             .map(mapToPlacesState)
@@ -91,6 +93,11 @@ private extension PlacesViewModel {
             }
         .map(mapToPlacesCellViewModel)
         .map(mapToPlacesState)
+    }
+
+    func getStateForPlaceTapped(index: Int) -> Observable<State> {
+        router.toPlaceDetails()
+        return .just(.idle)
     }
 
 
