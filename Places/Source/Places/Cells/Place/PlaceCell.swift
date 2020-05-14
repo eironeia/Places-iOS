@@ -123,9 +123,9 @@ private extension PlaceCell {
             bottom: cardView.bottomAnchor,
             right: cardView.rightAnchor,
             topConstant: Spacing.default,
-            leftConstant: Spacing.default,
+            leftConstant: Spacing.double,
             bottomConstant: Spacing.default,
-            rightConstant: Spacing.default
+            rightConstant: Spacing.double
         )
 
         [placeName,ratingContainer].forEach(cardContentContainer.addArrangedSubview)

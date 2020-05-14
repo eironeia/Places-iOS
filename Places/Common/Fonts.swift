@@ -22,11 +22,11 @@ extension UIFont {
 
         switch type {
         case .regular:
-            fontName = "CirceRounded-Regular5"
-        case .semiBold:
             fontName = "CirceRounded-Regular"
-        case .bold:
+        case .semiBold:
             fontName = "CirceRounded-Regular4"
+        case .bold:
+            fontName = "CirceRounded-Regular3"
         }
 
         guard let customFont = UIFont(name: fontName, size: size) else {
