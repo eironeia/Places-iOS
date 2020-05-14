@@ -16,7 +16,6 @@ final class PlacesViewController: UIViewController {
     private let viewModel: PlacesViewModelInterface
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.refreshControl = UIRefreshControl()
@@ -55,8 +54,6 @@ final class PlacesViewController: UIViewController {
         setup()
         eventSubject.onNext(.fetchPlaces)
     }
-}
-
 }
 
 //MARK - TableView DataSource

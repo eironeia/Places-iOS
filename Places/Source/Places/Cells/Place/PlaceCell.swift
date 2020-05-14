@@ -100,21 +100,21 @@ private extension PlaceCell {
         openNow.anchor(
             top: cardView.topAnchor,
             left: cardView.leftAnchor,
-            bottom: cardView.bottomAnchor
+            right: cardView.rightAnchor,
+            heightConstant: 35
         )
 
         cardContentContainer.anchor(
-            top: cardView.topAnchor,
-            left: openNow.rightAnchor,
+            top: openNow.bottomAnchor,
+            left: cardView.leftAnchor,
             bottom: cardView.bottomAnchor,
             right: cardView.rightAnchor,
             topConstant: Spacing.default,
-            leftConstant: Spacing.double,
+            leftConstant: Spacing.default,
             bottomConstant: Spacing.default,
             rightConstant: Spacing.default
         )
 
-        openNow.anchor(widthConstant: 20)
         [placeName,ratingContainer].forEach(cardContentContainer.addArrangedSubview)
         [ratingTitle, ratingValue].forEach(ratingContainer.addArrangedSubview)
     }
