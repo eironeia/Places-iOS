@@ -5,7 +5,7 @@ import Foundation
 import RxSwift
 
 struct PlacesViewModel: PlacesViewModelInterface {
-    enum ErrorType {
+    enum ErrorType: Error {
         case unknown
 
         var information: (title: String, message: String) {

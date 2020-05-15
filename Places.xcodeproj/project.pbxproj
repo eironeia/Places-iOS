@@ -25,6 +25,9 @@
 		985ECFF2246C421300C68861 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985ECFF1246C421300C68861 /* UIView+Extensions.swift */; };
 		985ECFF4246C44E900C68861 /* Colection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985ECFF3246C44E900C68861 /* Colection+Extension.swift */; };
 		985ECFF7246C4CBC00C68861 /* PlaceCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985ECFF6246C4CBC00C68861 /* PlaceCellViewModel.swift */; };
+		9874B9A3246E9D6F0052E11A /* NetworkInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874B9A2246E9D6F0052E11A /* NetworkInterfaces.swift */; };
+		9874B9A5246EA1980052E11A /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874B9A4246EA1980052E11A /* APIError.swift */; };
+		9874B9A7246EA1C70052E11A /* PlacesEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874B9A6246EA1C70052E11A /* PlacesEndpoints.swift */; };
 		9888DB6A246AD7C400CCAE62 /* PlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */; };
 		9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */; };
 		9888DB6E246AD83B00CCAE62 /* PlacesRespository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB6D246AD83B00CCAE62 /* PlacesRespository.swift */; };
@@ -82,6 +85,9 @@
 		985ECFF1246C421300C68861 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		985ECFF3246C44E900C68861 /* Colection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colection+Extension.swift"; sourceTree = "<group>"; };
 		985ECFF6246C4CBC00C68861 /* PlaceCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCellViewModel.swift; sourceTree = "<group>"; };
+		9874B9A2246E9D6F0052E11A /* NetworkInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaces.swift; sourceTree = "<group>"; };
+		9874B9A4246EA1980052E11A /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		9874B9A6246EA1C70052E11A /* PlacesEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesEndpoints.swift; sourceTree = "<group>"; };
 		9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewModel.swift; sourceTree = "<group>"; };
 		9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesCoordinator.swift; sourceTree = "<group>"; };
 		9888DB6D246AD83B00CCAE62 /* PlacesRespository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesRespository.swift; sourceTree = "<group>"; };
@@ -181,8 +187,10 @@
 				9888DB79246AE0C100CCAE62 /* Common */,
 				988A46E9246AD50C004828D9 /* Resources */,
 				9888DB78246AE09A00CCAE62 /* Extensions */,
+				9874B9A1246E9CE90052E11A /* Network */,
 				9888DB71246ADC6B00CCAE62 /* Factories */,
-				988A46E8246AD504004828D9 /* Source */,
+				98AFB2F2246E78B700D8C4CA /* Views */,
+				988A46E8246AD504004828D9 /* Scenes */,
 			);
 			path = Places;
 			sourceTree = "<group>";
@@ -214,6 +222,23 @@
 			path = Place;
 			sourceTree = "<group>";
 		};
+		9874B9A1246E9CE90052E11A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9874B9A4246EA1980052E11A /* APIError.swift */,
+				9874B9A2246E9D6F0052E11A /* NetworkInterfaces.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9874B9A8246EA7150052E11A /* Endpoins */ = {
+			isa = PBXGroup;
+			children = (
+				9874B9A6246EA1C70052E11A /* PlacesEndpoints.swift */,
+			);
+			path = Endpoins;
+			sourceTree = "<group>";
+		};
 		9888DB71246ADC6B00CCAE62 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +261,7 @@
 		9888DB79246AE0C100CCAE62 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				981B51C0246AC3930092D9DD /* AppDelegate.swift */,
 				9888DB7A246AE0C800CCAE62 /* Miscelaneous.swift */,
 				98DCCCD6246C527D0063C049 /* Spacing.swift */,
 				98DCCCDB246D78020063C049 /* Colors.swift */,
@@ -244,15 +270,13 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		988A46E8246AD504004828D9 /* Source */ = {
+		988A46E8246AD504004828D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				981B51C0246AC3930092D9DD /* AppDelegate.swift */,
-				98AFB2F2246E78B700D8C4CA /* Views */,
 				988A46EA246AD51E004828D9 /* Places */,
 				98AFB2E4246DE95500D8C4CA /* PlaceDetails */,
 			);
-			path = Source;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 		988A46E9246AD50C004828D9 /* Resources */ = {
@@ -273,6 +297,7 @@
 		988A46EA246AD51E004828D9 /* Places */ = {
 			isa = PBXGroup;
 			children = (
+				9874B9A8246EA7150052E11A /* Endpoins */,
 				98193722246C26E1009DBE21 /* Cells */,
 				9819371F246C1A5D009DBE21 /* Models */,
 				9888DB6F246ADB7B00CCAE62 /* PlacesInterfaces.swift */,
@@ -526,12 +551,15 @@
 				9888DB74246ADC8700CCAE62 /* PlacesViewControllerFactory.swift in Sources */,
 				9888DB6A246AD7C400CCAE62 /* PlacesViewModel.swift in Sources */,
 				981B51C5246AC3930092D9DD /* PlacesViewController.swift in Sources */,
+				9874B9A7246EA1C70052E11A /* PlacesEndpoints.swift in Sources */,
 				98193721246C1A65009DBE21 /* Place.swift in Sources */,
+				9874B9A3246E9D6F0052E11A /* NetworkInterfaces.swift in Sources */,
 				985ECFF7246C4CBC00C68861 /* PlaceCellViewModel.swift in Sources */,
 				9819371C246B6A79009DBE21 /* PlacesLocationAuthorizationHandler.swift in Sources */,
 				98B7DDC0246E996E009810CC /* DetailsCellViewModel.swift in Sources */,
 				983D6D09246B4AF70089BE07 /* PlacesAlertFactory.swift in Sources */,
 				985ECFF0246C3A2000C68861 /* UITableViewCell+Extension.swift in Sources */,
+				9874B9A5246EA1980052E11A /* APIError.swift in Sources */,
 				98AFB2E6246DE97900D8C4CA /* PlaceDetailsViewController.swift in Sources */,
 				9888DB7B246AE0C800CCAE62 /* Miscelaneous.swift in Sources */,
 				98AFB2EF246E0E9500D8C4CA /* PlaceDetailsInterfaces.swift in Sources */,

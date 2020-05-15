@@ -30,6 +30,7 @@ class PlaceDetailsViewController: UIViewController {
         tableView.alwaysBounceVertical = false
         tableView.register(HeaderCell.self, forCellReuseIdentifier: HeaderCell.identifier)
         tableView.register(DetailsCell.self, forCellReuseIdentifier: DetailsCell.identifier)
+        tableView.allowsSelection = false
         return tableView
     }()
 

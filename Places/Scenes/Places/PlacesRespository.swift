@@ -7,10 +7,18 @@ import RxSwift
 protocol PlacesRepositoryInterface {
     func getPlaces() -> Single<[Place]>
 }
+struct PlacesRepository: PlacesRepositoryInterface, APIClient {
+    let session: URLSession
 
-struct PlacesRepository: PlacesRepositoryInterface {
+    init(configuration: URLSessionConfiguration = .default) {
+        self.session = URLSession(configuration: configuration)
+    }
+
     func getPlaces() -> Single<[Place]> {
-        .just(getPlacesFromMock().places)
+        let getPlaceResponse: Single<GetPlacesResponse> = rxRequest(with: PlacesEndpoint.nearbyPlaces.request)
+        return getPlaceResponse
+            .flatMap ({ .just($0.places) })
+//        .just(getPlacesFromMock().places) 
     }
 }
 
@@ -29,7 +37,6 @@ private extension PlacesRepository {
             let getPlacesResponse = try decoder.decode(GetPlacesResponse.self, from: data)
             return getPlacesResponse
         } catch {
-            print(error)
             fatalError()
         }
     }
