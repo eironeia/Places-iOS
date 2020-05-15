@@ -1,4 +1,5 @@
 PODS:
+  - PKHUD (5.3.0)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -7,20 +8,23 @@ PODS:
   - RxSwift (5.1.1)
 
 DEPENDENCIES:
+  - PKHUD (~> 5.0)
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
 
 SPEC REPOS:
   trunk:
+    - PKHUD
     - RxCocoa
     - RxRelay
     - RxSwift
 
 SPEC CHECKSUMS:
+  PKHUD: 98f3e4bc904b9c916f1c5bb6d765365b5357291b
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: 42e6d6d5b9fd86eb5887b2b25ea76bcc76afdac7
+PODFILE CHECKSUM: c7b13a7f027b1094738d6f6f72f1f7166e432284
 
 COCOAPODS: 1.9.1

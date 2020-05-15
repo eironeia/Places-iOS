@@ -8,6 +8,7 @@ target 'Places' do
   # Pods for Places
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
+  pod 'PKHUD', '~> 5.0'
   
   target 'PlacesTests' do
     inherit! :search_paths
