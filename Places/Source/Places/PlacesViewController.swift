@@ -151,7 +151,6 @@ private extension PlacesViewController {
     }
 
     func handleLocationStatus(status: PlacesLocationAuthorizationHandler.LocationStatus) {
-        print(status)
         switch status {
         case .notDetermined:
             showPlaceholder(text: "Waiting for location approval ✅")
