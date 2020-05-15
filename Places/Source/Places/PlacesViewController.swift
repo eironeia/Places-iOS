@@ -5,6 +5,7 @@ import UIKit
 import CoreLocation
 import RxSwift
 import RxCocoa
+import PKHUD
 
 final class PlacesViewController: UIViewController {
     deinit {
@@ -202,16 +203,19 @@ private extension PlacesViewController {
     }
 
     func handle(state: PlacesViewModel.State) {
-        print(state)
         switch state {
         case let .places(viewModels):
             dataSource = viewModels
         case let .error(error):
             let alert = alertFactory.makeErrorAlert(error: error)
             present(alert, animated: true, completion: nil)
-        case .idle: break
         case let .isLoading(isLoading):
-            print(isLoading, "doSomeLoading")
+            if isLoading {
+                HUD.show(.progress)
+            } else {
+                HUD.hide()
+            }
+        case .idle: break
         }
     }
 
