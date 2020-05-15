@@ -145,7 +145,7 @@ private extension PlaceCell {
     func setup(rating: Double?) {
         ratingTitle.text = "Ratings"
         if let rating = rating {
-            ratingValue.text = "\(rating)"
+            ratingValue.text = "\(rating) ⭐️"
         } else {
             ratingValue.text = "-"
         }

@@ -45,19 +45,19 @@ private extension PlaceDetailsViewModel {
                 [.header(HeaderCellViewModel(title: place.name)),
                  .details([
                     DetailsCellViewModel(
-                        detailsTitle: "Availability",
+                        detailsTitle: "Availability 🗓",
                         details: getAvailabilityDetails(isOpen: place.openingHours?.isOpen)
                     ),
                     DetailsCellViewModel(
-                        detailsTitle: "Rating",
+                        detailsTitle: "Rating ⭐️",
                         details: getRatingDetails(rating: place.rating)
                     ),
                     DetailsCellViewModel(
-                        detailsTitle: "Total user reviews",
+                        detailsTitle: "Total user reviews 👥",
                         details: getUserRatingTotalDetails(totalOfReviews: place.userRatingsTotal)
                     ),
                     DetailsCellViewModel(
-                        detailsTitle: "Price level",
+                        detailsTitle: "Price level 🤑",
                         details: getPriceLevellDetails(priceLevel: place.priceLevel)
                     )])
                 ]

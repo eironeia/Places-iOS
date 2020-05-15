@@ -37,6 +37,7 @@
 		98AFB2EB246DF69000D8C4CA /* DetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFB2EA246DF69000D8C4CA /* DetailsCell.swift */; };
 		98AFB2ED246E0E7900D8C4CA /* PlaceDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFB2EC246E0E7900D8C4CA /* PlaceDetailsViewModel.swift */; };
 		98AFB2EF246E0E9500D8C4CA /* PlaceDetailsInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFB2EE246E0E9500D8C4CA /* PlaceDetailsInterfaces.swift */; };
+		98AFB2F1246E758F00D8C4CA /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFB2F0246E758F00D8C4CA /* PlaceholderView.swift */; };
 		98DCCCD7246C527D0063C049 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCD6246C527D0063C049 /* Spacing.swift */; };
 		98DCCCD9246D33440063C049 /* MockAPI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 98DCCCD8246D33440063C049 /* MockAPI.bundle */; };
 		98DCCCDC246D78020063C049 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDB246D78020063C049 /* Colors.swift */; };
@@ -89,6 +90,7 @@
 		98AFB2EA246DF69000D8C4CA /* DetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsCell.swift; sourceTree = "<group>"; };
 		98AFB2EC246E0E7900D8C4CA /* PlaceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewModel.swift; sourceTree = "<group>"; };
 		98AFB2EE246E0E9500D8C4CA /* PlaceDetailsInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsInterfaces.swift; sourceTree = "<group>"; };
+		98AFB2F0246E758F00D8C4CA /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		98DCCCD6246C527D0063C049 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		98DCCCD8246D33440063C049 /* MockAPI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockAPI.bundle; sourceTree = "<group>"; };
 		98DCCCDB246D78020063C049 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		988A46EA246AD51E004828D9 /* Places */ = {
 			isa = PBXGroup;
 			children = (
+				98AFB2F2246E78B700D8C4CA /* Views */,
 				98193722246C26E1009DBE21 /* Cells */,
 				9819371F246C1A5D009DBE21 /* Models */,
 				9888DB6F246ADB7B00CCAE62 /* PlacesInterfaces.swift */,
@@ -290,6 +293,14 @@
 				98AFB2EA246DF69000D8C4CA /* DetailsCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		98AFB2F2246E78B700D8C4CA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				98AFB2F0246E758F00D8C4CA /* PlaceholderView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		98DCCCDA246D77EE0063C049 /* Fonts */ = {
@@ -481,6 +492,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98AFB2F1246E758F00D8C4CA /* PlaceholderView.swift in Sources */,
 				98193724246C362B009DBE21 /* PlaceCell.swift in Sources */,
 				9888DB74246ADC8700CCAE62 /* PlacesViewControllerFactory.swift in Sources */,
 				9888DB6A246AD7C400CCAE62 /* PlacesViewModel.swift in Sources */,

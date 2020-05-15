@@ -11,7 +11,6 @@ final class PlacesViewController: UIViewController {
         debugPrint("\(PlacesViewController.self) deinit called")
     }
 
-    private var finishedLoadingInitialTableCells = false
     private let locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface
     private let alertFactory: PlacesAlertFactoryInterface
     private let viewModel: PlacesViewModelInterface
@@ -20,7 +19,6 @@ final class PlacesViewController: UIViewController {
     private let eventSubject = PublishSubject<PlacesViewModel.Event>()
     private var dataSource: [PlaceCellViewModelInterface] = [] {
         didSet {
-            finishedLoadingInitialTableCells = false
             tableView.reloadData()
         }
     }
@@ -30,7 +28,6 @@ final class PlacesViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        tableView.refreshControl = UIRefreshControl()
         tableView.estimatedRowHeight = 64
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = .white
@@ -38,6 +35,32 @@ final class PlacesViewController: UIViewController {
         tableView.alwaysBounceVertical = false
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.identifier)
         return tableView
+    }()
+
+    private let placeholderView: PlaceholderView = {
+        let view = PlaceholderView()
+        view.isHidden = true
+        return view
+    }()
+
+    private lazy var floatingScrollToTopButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Scroll to top", for: .normal)
+        button.setTitleColor(.customOrange, for: .normal)
+        button.layer.borderColor = UIColor.customOrange.cgColor
+        button.layer.borderWidth = 2
+        button.layer.cornerRadius = 8
+        button.clipsToBounds = true
+        button.backgroundColor = .white
+        button.titleEdgeInsets = .init(
+            top: Spacing.default,
+            left: Spacing.default,
+            bottom: Spacing.default,
+            right: Spacing.default
+        )
+        button.titleLabel?.font = .circleRoundedFont(size: FontSize.double, type: .semiBold)
+        button.addTarget(self, action: #selector(self.scrollToTop), for: .touchUpInside)
+        return button
     }()
 
     init(
@@ -56,7 +79,6 @@ final class PlacesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        eventSubject.onNext(.fetchPlaces)
     }
 }
 
@@ -67,19 +89,8 @@ extension PlacesViewController: UITableViewDelegate {
         eventSubject.onNext(.placeTapped(indexPath))
     }
 
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard !finishedLoadingInitialTableCells else { return }
-        finishedLoadingInitialTableCells = !dataSource.isEmpty
-            && !finishedLoadingInitialTableCells
-            && tableView.indexPathsForVisibleRows?.last?.row == indexPath.row
-        cell.transform = CGAffineTransform(translationX: 0, y: 20)
-        cell.alpha = 0
-
-        UIView.animate(withDuration: 0.5, delay: 0.05*Double(indexPath.row), options: [.curveEaseInOut], animations: {
-            cell.transform = CGAffineTransform(translationX: 0, y: 0)
-            cell.alpha = 1
-        }, completion: nil)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        handleShowFloatingButton()
     }
 }
 
@@ -104,22 +115,31 @@ extension PlacesViewController: UITableViewDataSource {
 //MARK: - Private methods
 private extension PlacesViewController {
     func setup() {
-        let add = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(addTapped))
-        navigationItem.rightBarButtonItem = add
-
+        setupUI()
         setupLayout()
-        setupLocationAuthorization()
         bindEvents()
+        setupLocationAuthorization()
+    }
+
+    func setupUI() {
+        view.backgroundColor = .white
+        let add = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(sortButtonTapped))
+        navigationItem.rightBarButtonItem = add
     }
 
     func setupLayout() {
-        view.addSubview(tableView)
-        tableView.fillSuperview()
+        [placeholderView, tableView, floatingScrollToTopButton].forEach(view.addSubview)
+        [placeholderView, tableView].forEach({ $0.fillSuperview() })
+        floatingScrollToTopButton.anchorCenterXToSuperview()
+        floatingScrollToTopButton.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            topConstant: Spacing.default,
+            widthConstant: 120
+        )
     }
 
     //MARK: Location handling
     func setupLocationAuthorization() {
-        locationAuthorizationHandler.checkLocationServices()
         locationAuthorizationHandler
             .locationStatusSubject
             .asDriverOnErrorJustComplete()
@@ -127,40 +147,40 @@ private extension PlacesViewController {
                 self?.handleLocationStatus(status: locationStatus)
             })
             .disposed(by: disposeBag)
+        locationAuthorizationHandler.checkLocationServices()
     }
 
     func handleLocationStatus(status: PlacesLocationAuthorizationHandler.LocationStatus) {
+        print(status)
         switch status {
         case .notDetermined:
-            print("Not determined")
+            showPlaceholder(text: "Waiting for location approval ✅")
         case .restricted:
             handleRestrictedLocationAlert()
         case .denied:
             handleDeniedLocationStatus()
         case .authorized:
-            print("Authorized")
+            hidePlaceholder()
+            eventSubject.onNext(.fetchPlaces)
         }
     }
 
     func handleRestrictedLocationAlert() {
-        let action: InputClosure<UIAlertAction> = { [weak self] _ in
-            print("Ok pressed -> dismissed")
-            self?.view.backgroundColor = .blue
-        }
-        let alert = alertFactory.makeRestrictedAlert(action: action)
+        let alert = alertFactory.makeRestrictedAlert(
+            action: ({ [weak self] _ in
+                self?.showPlaceholder(text: "Location is restricted 😢\nPlease change it on Settings ⚙️")
+            })
+        )
         present(alert, animated: true, completion: nil)
     }
 
     func handleDeniedLocationStatus() {
-        let okAction: InputClosure<UIAlertAction> = { [weak self] _ in
-            print("Ok pressed -> dismissed")
-            self?.view.backgroundColor = .red
-        }
-
-        let goSettingsAction: InputClosure<UIAlertAction> = { [weak self] _ in
-            self?.goToNativeSettingsPage()
-        }
-        let alert = alertFactory.makeDeniedAlert(okAction: okAction, goSettingsAction: goSettingsAction)
+        let alert = alertFactory.makeDeniedAlert(
+            action: ({ [weak self] _ in
+                self?.showPlaceholder(text: "Location denied 🙅🏻‍♂️\nPlease change it on Settings ⚙️")
+                self?.goToNativeSettingsPage()
+            })
+        )
         present(alert, animated: true, completion: nil)
     }
 
@@ -191,14 +211,52 @@ private extension PlacesViewController {
             let alert = alertFactory.makeErrorAlert(error: error)
             present(alert, animated: true, completion: nil)
         case .idle: break
-        default:
-            break
+        case let .isLoading(isLoading):
+            print(isLoading, "doSomeLoading")
         }
     }
 
     @objc
-    func addTapped() {
-        eventSubject.onNext(.changeSortCriteria(.availability))
+    func sortButtonTapped() {
+        let alert = alertFactory.makeSortingCriteriaAlert(
+            rating: ({ [weak self] _ in
+                self?.eventSubject.onNext(.changeSortCriteria(.rating))
+            }),
+            availability: ({ [weak self] _ in
+                self?.eventSubject.onNext(.changeSortCriteria(.availability))
+            })
+        )
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    func showPlaceholder(text: String) {
+        placeholderView.isHidden = false
+        tableView.isHidden = true
+        floatingScrollToTopButton.isHidden = true
+        placeholderView.setup(text: text)
+    }
+
+    func hidePlaceholder() {
+        placeholderView.isHidden = true
+        tableView.isHidden = false
+        floatingScrollToTopButton.isHidden = true
+    }
+
+    @objc
+    func scrollToTop() {
+        let indexPath = IndexPath(row: 0, section: 0)
+        guard tableView.numberOfRows(inSection: 0) > 0 else { return }
+        floatingScrollToTopButton.isHidden = true
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
+
+    func handleShowFloatingButton() {
+        if let firstVisibleIndexPath = self.tableView.indexPathsForVisibleRows?.first {
+            floatingScrollToTopButton.isHidden = firstVisibleIndexPath.row < 5
+        } else {
+            floatingScrollToTopButton.isHidden = true
+        }
     }
 }
 

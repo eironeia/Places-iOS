@@ -16,10 +16,7 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
         return alert
     }
 
-    func makeDeniedAlert(
-        okAction: ((UIAlertAction) -> Void)?,
-        goSettingsAction: ((UIAlertAction) -> Void)?
-    ) -> UIAlertController {
+    func makeDeniedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController {
 
         let message = [
             "Possible reasons:",
@@ -34,8 +31,7 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
             preferredStyle: .alert
         )
 
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: okAction))
-        alert.addAction(UIAlertAction(title: "Take me to settings", style: .default, handler: goSettingsAction))
+        alert.addAction(UIAlertAction(title: "Take me to settings", style: .default, handler: action))
 
         return alert
     }
@@ -52,6 +48,24 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
 
         alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
         
+        return alert
+    }
+
+    func makeSortingCriteriaAlert(
+        rating: ((UIAlertAction) -> Void)?,
+        availability: ((UIAlertAction) -> Void)?
+    ) -> UIAlertController {
+
+        let alert = UIAlertController(
+            title: "Sort list",
+            message: "Chose a sorting criteria method.",
+            preferredStyle: .alert
+        )
+
+        alert.addAction(UIAlertAction(title: "Rating ⭐️", style: .default, handler: rating))
+        alert.addAction(UIAlertAction(title: "Availability 🗓", style: .default, handler: availability))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: availability))
+
         return alert
     }
 }
