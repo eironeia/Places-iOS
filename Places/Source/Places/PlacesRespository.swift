@@ -35,7 +35,6 @@ private extension PlacesRepository {
     }
 }
 
-
 extension Bundle {
     public class var mockAPI: Bundle {
         guard let bundlePath = Bundle.main.path(forResource: "MockAPI", ofType: "bundle"),

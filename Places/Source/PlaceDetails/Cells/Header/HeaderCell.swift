@@ -3,14 +3,6 @@
 
 import UIKit
 
-protocol HeaderCellViewModelInterface {
-    var title: String { get }
-}
-
-struct HeaderCellViewModel: HeaderCellViewModelInterface {
-    let title: String
-}
-
 final class HeaderCell: UITableViewCell {
 
     private let header: UILabel = {

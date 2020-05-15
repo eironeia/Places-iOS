@@ -30,7 +30,6 @@ final class PlaceholderView: UIView {
 
 private extension PlaceholderView {
     func setupLayout() {
-        backgroundColor = .customYellow
         addSubviewWithAutolayout(title)
         title.anchorCenterYToSuperview()
         title.anchor(

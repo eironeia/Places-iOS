@@ -87,7 +87,6 @@ private extension PlacesViewModel {
     func getStateForChangeSortCriteria(criteria: SortingCriteria) -> Observable<State> {
         sortingCriteriaSubject.onNext(criteria)
         return sortingCriteriaSubject
-            .debug()
             .withLatestFrom(placesSubject) { (sortingCriteria, places) -> [Place] in
                 self.sort(places: places, withCriteria: sortingCriteria)
         }

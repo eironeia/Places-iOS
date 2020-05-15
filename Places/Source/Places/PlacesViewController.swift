@@ -115,6 +115,7 @@ extension PlacesViewController: UITableViewDataSource {
 
 //MARK: - Private methods
 private extension PlacesViewController {
+    //MARK: Setup
     func setup() {
         setupUI()
         setupLayout()
@@ -126,6 +127,7 @@ private extension PlacesViewController {
         view.backgroundColor = .white
         let add = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(sortButtonTapped))
         navigationItem.rightBarButtonItem = add
+        title = "Places"
     }
 
     func setupLayout() {
@@ -137,6 +139,14 @@ private extension PlacesViewController {
             topConstant: Spacing.default,
             widthConstant: 120
         )
+    }
+
+    func handleShowFloatingButton() {
+        if let firstVisibleIndexPath = self.tableView.indexPathsForVisibleRows?.first {
+            floatingScrollToTopButton.isHidden = firstVisibleIndexPath.row < 5
+        } else {
+            floatingScrollToTopButton.isHidden = true
+        }
     }
 
     //MARK: Location handling
@@ -252,14 +262,6 @@ private extension PlacesViewController {
         guard tableView.numberOfRows(inSection: 0) > 0 else { return }
         floatingScrollToTopButton.isHidden = true
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-    }
-
-    func handleShowFloatingButton() {
-        if let firstVisibleIndexPath = self.tableView.indexPathsForVisibleRows?.first {
-            floatingScrollToTopButton.isHidden = firstVisibleIndexPath.row < 5
-        } else {
-            floatingScrollToTopButton.isHidden = true
-        }
     }
 }
 

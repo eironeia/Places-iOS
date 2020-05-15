@@ -42,7 +42,6 @@ class PlaceDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setup()
         eventSubject.onNext(.fetchPlaceDetails)
     }
@@ -89,8 +88,14 @@ extension PlaceDetailsViewController: UITableViewDataSource {
 private extension PlaceDetailsViewController {
     //MARK: Setup
     func setup() {
+        setupUI()
         setupLayout()
         bindEvents()
+    }
+
+    func setupUI() {
+        view.backgroundColor = .white
+        title = "Details"
     }
 
     func setupLayout() {

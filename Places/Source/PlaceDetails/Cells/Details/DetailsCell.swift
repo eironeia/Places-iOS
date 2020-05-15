@@ -3,20 +3,6 @@
 
 import UIKit
 
-protocol DetailsCellViewModelInterface {
-    var detailsTitle: String { get }
-    var details: String { get }
-}
-
-struct DetailsCellViewModel: DetailsCellViewModelInterface {
-    let detailsTitle: String
-    let details: String
-    init(detailsTitle: String, details: String) {
-        self.detailsTitle = detailsTitle
-        self.details = details
-    }
-}
-
 final class DetailsCell: UITableViewCell {
 
     private let container: UIStackView = {
