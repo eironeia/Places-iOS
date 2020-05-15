@@ -20,8 +20,8 @@ struct PlacesCoordinator: PlacesCoordinatorInterface {
         presenter?.pushViewController(viewController, animated: true)
     }
 
-    func toPlaceDetails() {
-        let viewController = viewControllerFactory.makePlaceDetailsViewController()
+    func toPlaceDetails(place: Place) {
+        let viewController = viewControllerFactory.makePlaceDetailsViewController(place: place)
         presenter?.pushViewController(viewController, animated: true)
     }
 }

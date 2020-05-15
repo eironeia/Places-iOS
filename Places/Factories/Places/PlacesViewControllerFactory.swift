@@ -12,7 +12,7 @@ struct PlacesViewControllerFactory: PlacesViewControllerFactoryInterface {
         )
     }
 
-    func makePlaceDetailsViewController() -> UIViewController {
-        PlaceDetailsViewController(viewModel: PlaceDetailsViewModel())
+    func makePlaceDetailsViewController(place: Place) -> UIViewController {
+        PlaceDetailsViewController(viewModel: PlaceDetailsViewModel(place: place))
     }
 }

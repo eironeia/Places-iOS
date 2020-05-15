@@ -8,7 +8,7 @@ protocol HeaderCellViewModelInterface {
 }
 
 struct HeaderCellViewModel: HeaderCellViewModelInterface {
-    let title: String = "Title"
+    let title: String
 }
 
 final class HeaderCell: UITableViewCell {

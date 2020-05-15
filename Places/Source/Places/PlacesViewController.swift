@@ -60,23 +60,12 @@ final class PlacesViewController: UIViewController {
     }
 }
 
-//MARK - TableView DataSource
-extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataSource.count
+//TableView Delegate
+extension PlacesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        eventSubject.onNext(.placeTapped(indexPath))
     }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlaceCell.identifier) as? PlaceCell else {
-            return nonFatalError(message: "Cell has not been registered.")
-        }
-        guard let viewModel = dataSource[safe: indexPath.row] else {
-            return nonFatalError(message: "Index out of bounds.")
-        }
-        cell.setup(viewModel: viewModel)
-        return cell
-    }
-
 
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -91,6 +80,24 @@ extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
             cell.transform = CGAffineTransform(translationX: 0, y: 0)
             cell.alpha = 1
         }, completion: nil)
+    }
+}
+
+//MARK - TableView DataSource
+extension PlacesViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        dataSource.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlaceCell.identifier) as? PlaceCell else {
+            return nonFatalError(message: "Cell has not been registered.")
+        }
+        guard let viewModel = dataSource[safe: indexPath.row] else {
+            return nonFatalError(message: "Index out of bounds.")
+        }
+        cell.setup(viewModel: viewModel)
+        return cell
     }
 }
 
@@ -191,8 +198,7 @@ private extension PlacesViewController {
 
     @objc
     func addTapped() {
-//        eventSubject.onNext(.changeSortCriteria(.availability))
-        eventSubject.onNext(.placeTapped(1))
+        eventSubject.onNext(.changeSortCriteria(.availability))
     }
 }
 

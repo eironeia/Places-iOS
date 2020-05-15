@@ -5,25 +5,19 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol PlaceDetailsViewModelInterface {
-
-}
-
-struct PlaceDetailsViewModel: PlaceDetailsViewModelInterface {
-    enum SectionType {
-        case header(HeaderCellViewModelInterface)
-        case details([DetailsCellViewModel])
-    }
-}
-
 class PlaceDetailsViewController: UIViewController {
+    deinit {
+        debugPrint("\(PlaceDetailsViewController.self) deinit called")
+    }
 
     private let viewModel: PlaceDetailsViewModelInterface
-    private var dataSource: [PlaceDetailsViewModel.SectionType] = [
-        .header(HeaderCellViewModel()),
-        .details([DetailsCellViewModel(detailsTitle: "Rating", details: "4,4")])
-    ]
+    private let eventSubject = PublishSubject<PlaceDetailsViewModel.Event>()
     private lazy var disposeBag = DisposeBag()
+    private var dataSource: [PlaceDetailsViewModel.SectionType] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -50,6 +44,7 @@ class PlaceDetailsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setup()
+        eventSubject.onNext(.fetchPlaceDetails)
     }
 }
 
@@ -90,13 +85,35 @@ extension PlaceDetailsViewController: UITableViewDataSource {
     }
 }
 
+//MARK: - Private methods
 private extension PlaceDetailsViewController {
+    //MARK: Setup
     func setup() {
         setupLayout()
+        bindEvents()
     }
 
     func setupLayout() {
         view.addSubview(tableView)
         tableView.fillSuperview()
+    }
+
+    //MARK: ViewModel
+    func bindEvents() {
+        viewModel
+            .transform(event: eventSubject)
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] state in
+                self?.handle(state: state)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func handle(state: PlaceDetailsViewModel.State) {
+        print(state)
+        switch state {
+        case let .sections(dataSource):
+            self.dataSource = dataSource
+        }
     }
 }

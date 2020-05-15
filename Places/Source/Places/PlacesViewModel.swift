@@ -18,7 +18,7 @@ struct PlacesViewModel: PlacesViewModelInterface {
     enum Event {
         case fetchPlaces
         case changeSortCriteria(SortingCriteria)
-        case placeTapped(Int) //index
+        case placeTapped(IndexPath)
     }
 
     enum State {
@@ -37,8 +37,8 @@ struct PlacesViewModel: PlacesViewModelInterface {
     private let router: PlacesCoordinatorInterface
     private let isLoadingSubject = PublishSubject<Bool>()
     private let errorSubject = PublishSubject<ErrorType>()
-    private var placesSubject = BehaviorSubject<[Place]>(value: [])
-    private var sortingCriteriaSubject = BehaviorSubject<SortingCriteria>(value: .rating)
+    private let placesSubject = BehaviorSubject<[Place]>(value: [])
+    private let sortingCriteriaSubject = BehaviorSubject<SortingCriteria>(value: .rating)
 
     init(repository: PlacesRepositoryInterface, router: PlacesCoordinatorInterface) {
         self.repository = repository
@@ -47,8 +47,8 @@ struct PlacesViewModel: PlacesViewModelInterface {
 
     func transform(event: Observable<Event>) -> Observable<State> {
         let outputState = event.flatMapLatest(handleEvent)
-        let isLoading = isLoadingSubject.map({ State.isLoading($0) })
-        let error = errorSubject.map({ State.error($0) })
+        let isLoading = isLoadingSubject.map(State.isLoading)
+        let error = errorSubject.map(State.error)
         return Observable.merge(outputState, isLoading, error)
     }
 }
@@ -76,9 +76,9 @@ private extension PlacesViewModel {
         isLoadingSubject.onNext(true)
         return repository
             .getPlaces()
-            .do(onSuccess: self.placesSubject.onNext)
             .asObservable()
             .withLatestFrom(sortingCriteriaSubject, resultSelector: sort)
+            .do(onNext: self.placesSubject.onNext)
             .stopLoading(loadingSubject: isLoadingSubject)
             .map(mapToPlacesCellViewModel)
             .map(mapToPlacesState)
@@ -90,14 +90,20 @@ private extension PlacesViewModel {
             .debug()
             .withLatestFrom(placesSubject) { (sortingCriteria, places) -> [Place] in
                 self.sort(places: places, withCriteria: sortingCriteria)
-            }
+        }
+        .do(onNext: self.placesSubject.onNext)
         .map(mapToPlacesCellViewModel)
         .map(mapToPlacesState)
     }
 
-    func getStateForPlaceTapped(index: Int) -> Observable<State> {
-        router.toPlaceDetails()
-        return .just(.idle)
+    func getStateForPlaceTapped(index: IndexPath) -> Observable<State> {
+        Observable
+            .just(index)
+            .withLatestFrom(placesSubject) { (indexPath, places) -> Void in
+                    guard let place = places[safe: indexPath.row] else { return assertionFailure("Index out of bounds.") }
+                    self.router.toPlaceDetails(place: place)
+            }
+            .map({ _ in .idle })
     }
 
 
