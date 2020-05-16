@@ -90,5 +90,3 @@ extension APIClient {
 
     }
 }
-
-//TODO: Handle status code for Places API

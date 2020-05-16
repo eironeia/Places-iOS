@@ -14,9 +14,10 @@ protocol PlacesAlertFactoryInterface {
     func makeSortingCriteriaAlert(rating: ((UIAlertAction) -> Void)?, availability: ((UIAlertAction) -> Void)?) -> UIAlertController
 }
 
+//MARK: - Location Authorization
 protocol PlacesLocationAuthorizationHandlerInterface {
     var locationStatusSubject: PublishSubject<PlacesLocationAuthorizationHandler.LocationStatus> { get }
-//    var lastLocation: CLLocation? { get }
+    var lastLocation: Location? { get }
     func checkLocationServices()
 }
 
@@ -36,3 +37,22 @@ protocol PlacesCoordinatorInterface {
 protocol PlacesViewModelInterface {
     func transform(event: Observable<PlacesViewModel.Event>) -> Observable<PlacesViewModel.State>
 }
+
+//MARK: - Repository
+protocol PlacesRepositoryInterface {
+    func getPlaces(with location: Location) -> Single<GetPlacesResponse>
+}
+
+//MARK: - GetPlacesEndpoint
+protocol GetPlacesEndpointInterface: EndpointInterface { }
+
+extension GetPlacesEndpointInterface {
+    var base: String {
+        return "https://maps.googleapis.com"
+    }
+
+    var path: String {
+        return "/maps/api/place/nearbysearch/json"
+    }
+}
+

@@ -4,9 +4,6 @@
 import Foundation
 import RxSwift
 
-protocol PlacesRepositoryInterface {
-    func getPlaces() -> Single<[Place]>
-}
 struct PlacesRepository: PlacesRepositoryInterface, APIClient {
     let session: URLSession
 
@@ -14,16 +11,18 @@ struct PlacesRepository: PlacesRepositoryInterface, APIClient {
         self.session = URLSession(configuration: configuration)
     }
 
-    func getPlaces() -> Single<[Place]> {
-        let getPlaceResponse: Single<GetPlacesResponse> = rxRequest(with: PlacesEndpoint.nearbyPlaces.request)
-        return getPlaceResponse
-            .flatMap ({ .just($0.places) })
-//        .just(getPlacesFromMock().places) 
+    func getPlaces(with location: Location) -> Single<GetPlacesResponse> {
+            rxRequest(with: GetPlacesEndpoint(location: location).request)
+//        getPlacesFromMock()
     }
 }
 
 private extension PlacesRepository {
-    func getPlacesFromMock() -> GetPlacesResponse {
+    func getPlacesFromMock() -> Single<GetPlacesResponse> {
+        .just(getPlacesResponseFromMock())
+    }
+
+    func getPlacesResponseFromMock() -> GetPlacesResponse {
         let bundle = Bundle.mockAPI
         let file = "getPlacesResponse"
         let fileExtension = "json"
@@ -40,14 +39,5 @@ private extension PlacesRepository {
             fatalError()
         }
     }
-}
 
-extension Bundle {
-    public class var mockAPI: Bundle {
-        guard let bundlePath = Bundle.main.path(forResource: "MockAPI", ofType: "bundle"),
-            let bundle = Bundle(path: bundlePath) else {
-                fatalError()
-        }
-        return bundle
-    }
 }

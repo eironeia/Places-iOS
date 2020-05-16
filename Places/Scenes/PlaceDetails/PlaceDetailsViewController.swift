@@ -116,7 +116,6 @@ private extension PlaceDetailsViewController {
     }
     
     func handle(state: PlaceDetailsViewModel.State) {
-        print(state)
         switch state {
         case let .sections(dataSource):
             self.dataSource = dataSource

@@ -15,14 +15,21 @@ final class PlacesViewController: UIViewController {
     private let locationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface
     private let alertFactory: PlacesAlertFactoryInterface
     private let viewModel: PlacesViewModelInterface
-    private lazy var disposeBag = DisposeBag()
 
     private let eventSubject = PublishSubject<PlacesViewModel.Event>()
+    private lazy var disposeBag = DisposeBag()
+
     private var dataSource: [PlaceCellViewModelInterface] = [] {
         didSet {
             tableView.reloadData()
         }
     }
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        return refreshControl
+    }()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -35,6 +42,7 @@ final class PlacesViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.identifier)
+        tableView.refreshControl = refreshControl
         return tableView
     }()
 
@@ -120,13 +128,10 @@ private extension PlacesViewController {
         setupUI()
         setupLayout()
         bindEvents()
-        setupLocationAuthorization()
     }
 
     func setupUI() {
         view.backgroundColor = .white
-        let add = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(sortButtonTapped))
-        navigationItem.rightBarButtonItem = add
         title = "Places"
     }
 
@@ -150,35 +155,25 @@ private extension PlacesViewController {
     }
 
     //MARK: Location handling
-    func setupLocationAuthorization() {
-        locationAuthorizationHandler
-            .locationStatusSubject
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: { [weak self] locationStatus in
-                self?.handleLocationStatus(status: locationStatus)
-            })
-            .disposed(by: disposeBag)
-        locationAuthorizationHandler.checkLocationServices()
-    }
-
     func handleLocationStatus(status: PlacesLocationAuthorizationHandler.LocationStatus) {
+        navigationItem.rightBarButtonItems = nil
         switch status {
         case .notDetermined:
-            showPlaceholder(text: "Waiting for location approval ✅")
+            handleNotAuthorizedUI(text: "Waiting for location approval ✅")
         case .restricted:
             handleRestrictedLocationAlert()
         case .denied:
             handleDeniedLocationStatus()
-        case .authorized:
-            hidePlaceholder()
-            eventSubject.onNext(.fetchPlaces)
+        case let .authorized(location):
+            handleAuthorizedStatusUI()
+            eventSubject.onNext(.fetchPlaces(location))
         }
     }
 
     func handleRestrictedLocationAlert() {
         let alert = alertFactory.makeRestrictedAlert(
             action: ({ [weak self] _ in
-                self?.showPlaceholder(text: "Location is restricted 😢\nPlease change it on Settings ⚙️")
+                self?.handleNotAuthorizedUI(text: "Location is restricted 😢\nPlease change it on Settings ⚙️")
             })
         )
         present(alert, animated: true, completion: nil)
@@ -187,7 +182,7 @@ private extension PlacesViewController {
     func handleDeniedLocationStatus() {
         let alert = alertFactory.makeDeniedAlert(
             action: ({ [weak self] _ in
-                self?.showPlaceholder(text: "Location denied 🙅🏻‍♂️\nPlease change it on Settings ⚙️")
+                self?.handleNotAuthorizedUI(text: "Location denied 🙅🏻‍♂️\nPlease change it on Settings ⚙️")
                 self?.goToNativeSettingsPage()
             })
         )
@@ -210,6 +205,16 @@ private extension PlacesViewController {
                 self?.handle(state: state)
             })
             .disposed(by: disposeBag)
+
+        locationAuthorizationHandler
+            .locationStatusSubject
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] locationStatus in
+                self?.handleLocationStatus(status: locationStatus)
+            })
+            .disposed(by: disposeBag)
+
+        locationAuthorizationHandler.checkLocationServices()
     }
 
     func handle(state: PlacesViewModel.State) {
@@ -220,11 +225,7 @@ private extension PlacesViewController {
             let alert = alertFactory.makeErrorAlert(error: error)
             present(alert, animated: true, completion: nil)
         case let .isLoading(isLoading):
-            if isLoading {
-                HUD.show(.progress)
-            } else {
-                HUD.hide()
-            }
+            isLoading ? HUD.show(.progress) : HUD.hide()
         case .idle: break
         }
     }
@@ -243,17 +244,20 @@ private extension PlacesViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    func showPlaceholder(text: String) {
+    func handleNotAuthorizedUI(text: String) {
         placeholderView.isHidden = false
         tableView.isHidden = true
         floatingScrollToTopButton.isHidden = true
         placeholderView.setup(text: text)
     }
 
-    func hidePlaceholder() {
+    func handleAuthorizedStatusUI() {
         placeholderView.isHidden = true
         tableView.isHidden = false
         floatingScrollToTopButton.isHidden = true
+        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(sortButtonTapped))
+        let retryBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(retryRequest))
+        navigationItem.rightBarButtonItems = [addBarButtonItem, retryBarButtonItem]
     }
 
     @objc
@@ -262,6 +266,22 @@ private extension PlacesViewController {
         guard tableView.numberOfRows(inSection: 0) > 0 else { return }
         floatingScrollToTopButton.isHidden = true
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
+
+    @objc
+    func pullToRefresh() {
+        refreshControl.endRefreshing()
+        sendFetchPlacesEvent()
+    }
+
+    @objc
+    func retryRequest() {
+        sendFetchPlacesEvent()
+    }
+
+    func sendFetchPlacesEvent() {
+        guard let location = locationAuthorizationHandler.lastLocation else { debugPrint("Empty last location"); return }
+        eventSubject.onNext(.fetchPlaces(location))
     }
 }
 

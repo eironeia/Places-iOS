@@ -11,23 +11,24 @@ final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDeleg
         case notDetermined
         case restricted
         case denied
-        case authorized
+        case authorized(Location)
     }
 
     //MARK: PlacesLocationAuthorizationHandlerInterface
     let locationStatusSubject = PublishSubject<LocationStatus>()
-    var lastLocation: CLLocation?
+    var lastLocation: Location?
 
     //MARK: Stored properties
     private let locationManager = CLLocationManager()
+    private var isUpdatingLocationFirstTime: Bool = true
 
     //MARK: CLLocationManagerDelegate
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        lastLocation = locations.last
-    }
-
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         handleLocationAuthorizationStatus()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        sendLocationEvent(from: locations.last?.coordinate)
     }
 
     //MARK: PlacesLocationAuthorizationHandlerInterface
@@ -36,8 +37,7 @@ final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDeleg
             setupLocationManager()
             handleLocationAuthorizationStatus()
         } else {
-            //TODO: To be defined
-            assertionFailure("Not defined")
+            locationStatusSubject.onNext(.restricted)
         }
     }
 }
@@ -51,6 +51,7 @@ private extension PlacesLocationAuthorizationHandler {
     }
 
     func handleLocationAuthorizationStatus() {
+        isUpdatingLocationFirstTime = true
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -60,9 +61,22 @@ private extension PlacesLocationAuthorizationHandler {
         case .denied:
             locationStatusSubject.onNext(.denied)
         case .authorizedWhenInUse, .authorizedAlways:
-            locationStatusSubject.onNext(.authorized)
+            sendLocationEvent(from: locationManager.location?.coordinate)
         default: //Otherwise, it triggers a warning.
             assertionFailure("New state not handled, refer to documentation")
+        }
+    }
+
+    func sendLocationEvent(from coordinate: CLLocationCoordinate2D?) {
+        guard let coordinate = coordinate else {
+            debugPrint("Error: Coordinate is nil, please activate services")
+            return
+        }
+        let location = Location(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        lastLocation = location
+        if isUpdatingLocationFirstTime {
+            isUpdatingLocationFirstTime = false
+            locationStatusSubject.onNext(.authorized(location))
         }
     }
 }

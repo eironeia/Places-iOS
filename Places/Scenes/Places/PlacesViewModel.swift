@@ -6,17 +6,17 @@ import RxSwift
 
 struct PlacesViewModel: PlacesViewModelInterface {
     enum ErrorType: Error {
-        case unknown
+        case generic
 
         var information: (title: String, message: String) {
             switch self {
-            case .unknown: return ("Oops!", "Something went wrong.")
+            case .generic: return ("Oops!", "Something went wrong.")
             }
         }
     }
 
     enum Event {
-        case fetchPlaces
+        case fetchPlaces(Location)
         case changeSortCriteria(SortingCriteria)
         case placeTapped(IndexPath)
     }
@@ -55,16 +55,11 @@ struct PlacesViewModel: PlacesViewModelInterface {
 
 //MARK: - Private methods
 private extension PlacesViewModel {
-    func handleError(error: Error) {
-        //map error -> PlacesVM Error
-        errorSubject.onNext(.unknown)
-    }
-
     //MARK: Event handling
     func handleEvent(event: Event) -> Observable<State> {
         switch event {
-        case .fetchPlaces:
-            return getStateForFetchPlacesEvent()
+        case let .fetchPlaces(location):
+            return getStateForFetchPlacesEvent(with: location)
         case let .changeSortCriteria(criteria):
             return getStateForChangeSortCriteria(criteria: criteria)
         case let .placeTapped(index):
@@ -72,10 +67,18 @@ private extension PlacesViewModel {
         }
     }
 
-    func getStateForFetchPlacesEvent() -> Observable<State> {
+    func getStateForFetchPlacesEvent(with location: Location) -> Observable<State> {
         isLoadingSubject.onNext(true)
         return repository
-            .getPlaces()
+            .getPlaces(with: location)
+            .flatMap({ placesResponse -> Single<[Place]> in
+                guard case GetPlacesResponse.StatusCode.success = placesResponse.status else {
+                    debugPrint(placesResponse.status.localizedDescription)
+                    return .error(ErrorType.generic)
+                }
+                return .just(placesResponse.places)
+            })
+            .do(onError: handleError)
             .asObservable()
             .withLatestFrom(sortingCriteriaSubject, resultSelector: sort)
             .do(onNext: self.placesSubject.onNext)
@@ -99,10 +102,10 @@ private extension PlacesViewModel {
         Observable
             .just(index)
             .withLatestFrom(placesSubject) { (indexPath, places) -> Void in
-                    guard let place = places[safe: indexPath.row] else { return assertionFailure("Index out of bounds.") }
-                    self.router.toPlaceDetails(place: place)
-            }
-            .map({ _ in .idle })
+                guard let place = places[safe: indexPath.row] else { return assertionFailure("Index out of bounds.") }
+                self.router.toPlaceDetails(place: place)
+        }
+        .map({ _ in .idle })
     }
 
 
@@ -148,5 +151,44 @@ private extension PlacesViewModel {
 
     func mapToPlacesState(viewModels: [PlaceCellViewModel]) -> State {
         .places(viewModels)
+    }
+
+    //MARK: Error handling
+    func handleError(error: Error) {
+        debugPrint(error.localizedDescription)
+        if let error = error as? APIError {
+            handleAPIError(error)
+        } else if let error = error as? GetPlacesResponse.StatusCode {
+            handleGetPlacesStatusCode(error)
+        } else {
+            errorSubject.onNext(.generic)
+        }
+    }
+
+    func handleAPIError(_ error: APIError) {
+        switch error {
+        case .requestFailed:
+            errorSubject.onNext(.generic)
+        case .jsonConversionFailure:
+            debugPrint("Wrong model type while decoding JSON.")
+            errorSubject.onNext(.generic)
+        case .invalidData:
+            debugPrint("Invalid data")
+            errorSubject.onNext(.generic)
+        case .responseUnsuccessful:
+            errorSubject.onNext(.generic)
+        case .jsonParsingFailure:
+            debugPrint("Error parsing JSON.")
+            errorSubject.onNext(.generic)
+        }
+    }
+
+    func handleGetPlacesStatusCode(_ statusCode: GetPlacesResponse.StatusCode) {
+        switch statusCode {
+        case .success: break
+        case .noResults, .overQuota, .requestDenied, .invalidRequest, .unknown:
+            debugPrint(statusCode.localizedDescription)
+            errorSubject.onNext(.generic)
+        }
     }
 }
