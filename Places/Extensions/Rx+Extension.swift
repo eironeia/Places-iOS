@@ -9,31 +9,25 @@ import RxSwift
 extension ObservableType where Element == Bool {
     /// Boolean not operator
     public func not() -> Observable<Bool> {
-        return map(!)
+        map(!)
     }
 }
 
 extension SharedSequenceConvertibleType {
     func mapToVoid() -> SharedSequence<SharingStrategy, Void> {
-        return map { _ in }
+        map { _ in }
     }
 }
 
 extension ObservableType {
-    func catchErrorJustComplete() -> Observable<Element> {
-        return catchError { _ in
-            Observable.empty()
-        }
-    }
-
     func asDriverOnErrorJustComplete() -> Driver<Element> {
-        return asDriver { _ in
+        asDriver { _ in
             Driver.empty()
         }
     }
 
     func mapToVoid() -> Observable<Void> {
-        return map { _ in }
+        map { _ in }
     }
 
     func stopLoading(loadingSubject: PublishSubject<Bool>) -> Observable<Element> {
