@@ -7,7 +7,7 @@ final class DetailsCell: UITableViewCell {
 
     private let container: UIStackView = {
         let stackView = UIStackView()
-        stackView.spacing = Spacing.default
+        stackView.spacing = Constants.Spacing.default
         stackView.axis = .vertical
         stackView.alignment = .leading
         return stackView
@@ -15,7 +15,7 @@ final class DetailsCell: UITableViewCell {
 
     private let detailsTitle: UILabel = {
         let label = UILabel()
-        label.font = .circleRoundedFont(size: FontSize.default, type: .regular)
+        label.font = .circleRoundedFont(size: Constants.FontSize.default, type: .regular)
         label.textColor = .black
         label.numberOfLines = 0
         return label
@@ -23,7 +23,7 @@ final class DetailsCell: UITableViewCell {
 
     private let details: UILabel = {
         let label = UILabel()
-        label.font = .circleRoundedFont(size: FontSize.double, type: .semiBold)
+        label.font = .circleRoundedFont(size: Constants.FontSize.double, type: .semiBold)
         label.textColor = .black
         label.numberOfLines = 0
         return label
@@ -54,10 +54,10 @@ private extension DetailsCell {
         addSubviewWithAutolayout(container)
         container.fillSuperview(
             withEdges: .init(
-                top: Spacing.default,
-                left: Spacing.double,
-                bottom: Spacing.default,
-                right: Spacing.default
+                top: Constants.Spacing.default,
+                left: Constants.Spacing.double,
+                bottom: Constants.Spacing.default,
+                right: Constants.Spacing.default
             )
         )
         [detailsTitle, details].forEach(container.addArrangedSubview)

@@ -3,21 +3,14 @@
 
 import UIKit
 
-enum CircleRoundedFontType {
-    case regular
-    case semiBold
-    case bold
-}
-
-enum FontSize {
-    static var small: CGFloat = 14
-    static var `default`: CGFloat = 16
-    static var double: CGFloat = 18
-    static var big: CGFloat = 20
-}
-
 extension UIFont {
-    static func circleRoundedFont(size: CGFloat = FontSize.default, type: CircleRoundedFontType = .regular) -> UIFont {
+    enum CircleRoundedFontType {
+        case regular
+        case semiBold
+        case bold
+    }
+
+    static func circleRoundedFont(size: CGFloat = Constants.FontSize.default, type: CircleRoundedFontType = .regular) -> UIFont {
         let fontName: String
 
         switch type {

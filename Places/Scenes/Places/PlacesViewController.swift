@@ -62,12 +62,12 @@ final class PlacesViewController: UIViewController {
         button.clipsToBounds = true
         button.backgroundColor = .white
         button.titleEdgeInsets = .init(
-            top: Spacing.default,
-            left: Spacing.default,
-            bottom: Spacing.default,
-            right: Spacing.default
+            top: Constants.Spacing.default,
+            left: Constants.Spacing.default,
+            bottom: Constants.Spacing.default,
+            right: Constants.Spacing.default
         )
-        button.titleLabel?.font = .circleRoundedFont(size: FontSize.double, type: .semiBold)
+        button.titleLabel?.font = .circleRoundedFont(size: Constants.FontSize.double, type: .semiBold)
         button.addTarget(self, action: #selector(self.scrollToTop), for: .touchUpInside)
         return button
     }()
@@ -141,7 +141,7 @@ private extension PlacesViewController {
         floatingScrollToTopButton.anchorCenterXToSuperview()
         floatingScrollToTopButton.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
-            topConstant: Spacing.default,
+            topConstant: Constants.Spacing.default,
             widthConstant: 120
         )
     }

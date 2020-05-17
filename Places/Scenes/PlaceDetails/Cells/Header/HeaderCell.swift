@@ -7,7 +7,7 @@ final class HeaderCell: UITableViewCell {
 
     private let header: UILabel = {
         let label = UILabel()
-        label.font = .circleRoundedFont(size: FontSize.big, type: .bold)
+        label.font = .circleRoundedFont(size: Constants.FontSize.big, type: .bold)
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -38,10 +38,10 @@ private extension HeaderCell {
         addSubviewWithAutolayout(header)
         header.fillSuperview(
             withEdges: .init(
-                top: Spacing.double,
-                left: Spacing.default,
-                bottom: Spacing.double,
-                right: Spacing.default
+                top: Constants.Spacing.double,
+                left: Constants.Spacing.default,
+                bottom: Constants.Spacing.double,
+                right: Constants.Spacing.default
             )
         )
     }

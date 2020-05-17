@@ -23,7 +23,7 @@ final class PlaceCell: UITableViewCell {
 
     private let availability: UILabel = {
         let label = UILabel()
-        label.font = .circleRoundedFont(size: FontSize.double, type: .semiBold)
+        label.font = .circleRoundedFont(size: Constants.FontSize.double, type: .semiBold)
         label.textColor = .white
         label.textAlignment = .center
         return label
@@ -31,14 +31,14 @@ final class PlaceCell: UITableViewCell {
 
     private let cardContentContainer: UIStackView = {
         let stackView = UIStackView()
-        stackView.spacing = Spacing.double
+        stackView.spacing = Constants.Spacing.double
         stackView.axis = .vertical
         return stackView
     }()
 
     private let placeName: UILabel = {
         let label = UILabel()
-        label.font = .circleRoundedFont(size: FontSize.double, type: .bold)
+        label.font = .circleRoundedFont(size: Constants.FontSize.double, type: .bold)
         label.textColor = .black
         label.numberOfLines = 0
         return label
@@ -46,7 +46,7 @@ final class PlaceCell: UITableViewCell {
 
     private let ratingContainer: UIStackView = {
         let stackView = UIStackView()
-        stackView.spacing = Spacing.default
+        stackView.spacing = Constants.Spacing.default
         stackView.axis = .vertical
         stackView.alignment = .leading
         return stackView
@@ -54,14 +54,14 @@ final class PlaceCell: UITableViewCell {
 
     private let ratingTitle: UILabel = {
         let label = UILabel()
-        label.font = .circleRoundedFont(size: FontSize.small, type: .regular)
+        label.font = .circleRoundedFont(size: Constants.FontSize.small, type: .regular)
         label.textColor = .black
         return label
     }()
 
     private let ratingValue: UILabel = {
         let label = UILabel()
-        label.font = .circleRoundedFont(size: FontSize.default, type: .semiBold)
+        label.font = .circleRoundedFont(size: Constants.FontSize.default, type: .semiBold)
         label.textColor = .black
         return label
     }()
@@ -101,10 +101,10 @@ private extension PlaceCell {
             addSubviewWithAutolayout($0)
             $0.fillSuperview(
                 withEdges: .init(
-                    top: Spacing.double,
-                    left: Spacing.default,
-                    bottom: Spacing.double,
-                    right: Spacing.default
+                    top: Constants.Spacing.double,
+                    left: Constants.Spacing.default,
+                    bottom: Constants.Spacing.double,
+                    right: Constants.Spacing.default
                 )
             )
         })
@@ -123,10 +123,10 @@ private extension PlaceCell {
             left: cardView.leftAnchor,
             bottom: cardView.bottomAnchor,
             right: cardView.rightAnchor,
-            topConstant: Spacing.default,
-            leftConstant: Spacing.double,
-            bottomConstant: Spacing.default,
-            rightConstant: Spacing.double
+            topConstant: Constants.Spacing.default,
+            leftConstant: Constants.Spacing.double,
+            bottomConstant: Constants.Spacing.default,
+            rightConstant: Constants.Spacing.double
         )
 
         [placeName,ratingContainer].forEach(cardContentContainer.addArrangedSubview)

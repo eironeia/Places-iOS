@@ -47,10 +47,10 @@
 		98AFB2F1246E758F00D8C4CA /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFB2F0246E758F00D8C4CA /* PlaceholderView.swift */; };
 		98B7DDBD246E9951009810CC /* HeaderCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7DDBC246E9951009810CC /* HeaderCellViewModel.swift */; };
 		98B7DDC0246E996E009810CC /* DetailsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7DDBF246E996E009810CC /* DetailsCellViewModel.swift */; };
-		98DCCCD7246C527D0063C049 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCD6246C527D0063C049 /* Spacing.swift */; };
+		98DCCCD7246C527D0063C049 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCD6246C527D0063C049 /* Constants.swift */; };
 		98DCCCD9246D33440063C049 /* MockAPI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 98DCCCD8246D33440063C049 /* MockAPI.bundle */; };
-		98DCCCDC246D78020063C049 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDB246D78020063C049 /* Colors.swift */; };
-		98DCCCDE246D780D0063C049 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDD246D780D0063C049 /* Fonts.swift */; };
+		98DCCCDC246D78020063C049 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDB246D78020063C049 /* UIColor+Extension.swift */; };
+		98DCCCDE246D780D0063C049 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDD246D780D0063C049 /* UIFont+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,10 +109,10 @@
 		98AFB2F0246E758F00D8C4CA /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		98B7DDBC246E9951009810CC /* HeaderCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCellViewModel.swift; sourceTree = "<group>"; };
 		98B7DDBF246E996E009810CC /* DetailsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsCellViewModel.swift; sourceTree = "<group>"; };
-		98DCCCD6246C527D0063C049 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		98DCCCD6246C527D0063C049 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		98DCCCD8246D33440063C049 /* MockAPI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockAPI.bundle; sourceTree = "<group>"; };
-		98DCCCDB246D78020063C049 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		98DCCCDD246D780D0063C049 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		98DCCCDB246D78020063C049 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		98DCCCDD246D780D0063C049 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		98F92BFCD03F850C5D7C3CCF /* Pods-PlacesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.release.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.release.xcconfig"; sourceTree = "<group>"; };
 		CA79768EFCDF256C9A08C43A /* Pods_Places.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Places.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6370E17B4A2E428D4CD08EA /* Pods_PlacesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlacesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -276,6 +276,8 @@
 				985ECFF1246C421300C68861 /* UIView+Extensions.swift */,
 				985ECFF3246C44E900C68861 /* Colection+Extension.swift */,
 				98078634246FC7D40085F549 /* Bundle+Extension.swift */,
+				98DCCCDB246D78020063C049 /* UIColor+Extension.swift */,
+				98DCCCDD246D780D0063C049 /* UIFont+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -285,9 +287,7 @@
 			children = (
 				981B51C0246AC3930092D9DD /* AppDelegate.swift */,
 				9888DB7A246AE0C800CCAE62 /* Miscelaneous.swift */,
-				98DCCCD6246C527D0063C049 /* Spacing.swift */,
-				98DCCCDB246D78020063C049 /* Colors.swift */,
-				98DCCCDD246D780D0063C049 /* Fonts.swift */,
+				98DCCCD6246C527D0063C049 /* Constants.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -605,8 +605,8 @@
 				9888DB7B246AE0C800CCAE62 /* Miscelaneous.swift in Sources */,
 				98AFB2EF246E0E9500D8C4CA /* PlaceDetailsInterfaces.swift in Sources */,
 				9819371E246B6D81009DBE21 /* Rx+Extension.swift in Sources */,
-				98DCCCD7246C527D0063C049 /* Spacing.swift in Sources */,
-				98DCCCDC246D78020063C049 /* Colors.swift in Sources */,
+				98DCCCD7246C527D0063C049 /* Constants.swift in Sources */,
+				98DCCCDC246D78020063C049 /* UIColor+Extension.swift in Sources */,
 				9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */,
 				98078633246FC5BA0085F549 /* Location.swift in Sources */,
 				98AFB2ED246E0E7900D8C4CA /* PlaceDetailsViewModel.swift in Sources */,
@@ -615,7 +615,7 @@
 				98AFB2E9246DF67D00D8C4CA /* HeaderCell.swift in Sources */,
 				98AFB2EB246DF69000D8C4CA /* DetailsCell.swift in Sources */,
 				985ECFF4246C44E900C68861 /* Colection+Extension.swift in Sources */,
-				98DCCCDE246D780D0063C049 /* Fonts.swift in Sources */,
+				98DCCCDE246D780D0063C049 /* UIFont+Extension.swift in Sources */,
 				983099EA246E86AF00A0FEC7 /* GetPlacesResponse.swift in Sources */,
 				985ECFF2246C421300C68861 /* UIView+Extensions.swift in Sources */,
 				9888DB6E246AD83B00CCAE62 /* PlacesRespository.swift in Sources */,

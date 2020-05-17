@@ -35,8 +35,8 @@ private extension PlaceholderView {
         title.anchor(
             left: leftAnchor,
             right: rightAnchor,
-            leftConstant: Spacing.default,
-            rightConstant: Spacing.default
+            leftConstant: Constants.Spacing.default,
+            rightConstant: Constants.Spacing.default
         )
     }
 }
