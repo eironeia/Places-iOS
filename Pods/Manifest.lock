@@ -11,6 +11,7 @@ PODS:
   - RxTest (5.1.1):
     - RxSwift (~> 5)
   - SwiftFormat/CLI (0.44.10)
+  - SwiftLint (0.39.2)
 
 DEPENDENCIES:
   - PKHUD (~> 5.0)
@@ -19,6 +20,7 @@ DEPENDENCIES:
   - RxSwift (~> 5)
   - RxTest (~> 5)
   - SwiftFormat/CLI
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -29,6 +31,7 @@ SPEC REPOS:
     - RxSwift
     - RxTest
     - SwiftFormat
+    - SwiftLint
 
 SPEC CHECKSUMS:
   PKHUD: 98f3e4bc904b9c916f1c5bb6d765365b5357291b
@@ -38,7 +41,8 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxTest: 711632d5644dffbeb62c936a521b5b008a1e1faa
   SwiftFormat: b72e592ea0979aeee53f6052abff291181364933
+  SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: ee008f4df29911860e2f81d42fdc4cd482a2195c
+PODFILE CHECKSUM: dc70ca6c3f139838a47635745e99bdaa5e13953d
 
 COCOAPODS: 1.9.1

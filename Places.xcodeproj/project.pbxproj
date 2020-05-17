@@ -404,11 +404,12 @@
 			buildConfigurationList = 981B51DC246AC3950092D9DD /* Build configuration list for PBXNativeTarget "Places" */;
 			buildPhases = (
 				F68B64171E326C1B716258F6 /* [CP] Check Pods Manifest.lock */,
+				981B549524719B3200EC76D4 /* Format code */,
+				981B549624719E4A00EC76D4 /* Lint */,
 				981B51B9246AC3930092D9DD /* Sources */,
 				981B51BA246AC3930092D9DD /* Frameworks */,
 				981B51BB246AC3930092D9DD /* Resources */,
 				9835BC0151D584DF6F4D4DD0 /* [CP] Embed Pods Frameworks */,
-				981B549524719B3200EC76D4 /* Format code */,
 			);
 			buildRules = (
 			);
@@ -535,6 +536,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"$SRCROOT/Places\"\n";
+		};
+		981B549624719E4A00EC76D4 /* Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Lint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\n";
 		};
 		9835BC0151D584DF6F4D4DD0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

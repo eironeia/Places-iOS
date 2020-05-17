@@ -10,7 +10,10 @@ extension UIFont {
         case bold
     }
 
-    static func circleRoundedFont(size: CGFloat = Constants.FontSize.default, type: CircleRoundedFontType = .regular) -> UIFont {
+    static func circleRoundedFont(
+        size: CGFloat = Constants.FontSize.default,
+        type: CircleRoundedFontType = .regular
+    ) -> UIFont {
         let fontName: String
 
         switch type {

@@ -128,7 +128,10 @@ private extension PlacesViewModel {
             case(nil, _): return false
             case(_, nil): return true
             case let (rating1, rating2):
-                guard let r1 = rating1, let r2 = rating2 else { assertionFailure("This should never be triggered."); return false }
+                guard let r1 = rating1, let r2 = rating2 else {
+                    assertionFailure("This should never be triggered.")
+                    return false
+                }
                 return r1 > r2
             }
         }

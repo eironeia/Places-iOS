@@ -1,5 +1,6 @@
 //  Created by Alex Cuello Ortiz on 13/05/2020.
 //  Copyright © 2020 Chama. All rights reserved.
+// swiftlint:disable line_length
 //  Source: https://github.com/sergdort/CleanArchitectureRxSwift/blob/master/CleanArchitectureRxSwift/Utility/Observable%2BExt.swift
 
 import Foundation

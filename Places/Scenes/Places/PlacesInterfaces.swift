@@ -12,7 +12,10 @@ protocol PlacesAlertFactoryInterface {
     func makeRestrictedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController
     func makeDeniedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController
     func makeErrorAlert(title: String, message: String) -> UIAlertController
-    func makeSortingCriteriaAlert(rating: ((UIAlertAction) -> Void)?, availability: ((UIAlertAction) -> Void)?) -> UIAlertController
+    func makeSortingCriteriaAlert(
+        rating: ((UIAlertAction) -> Void)?,
+        availability: ((UIAlertAction) -> Void)?
+    ) -> UIAlertController
 }
 
 // MARK: - Location Authorization

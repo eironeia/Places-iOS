@@ -195,7 +195,9 @@ private extension PlacesViewController {
 
     @objc
     func goToNativeSettingsPage() {
-        guard let url = URL(string: UIApplication.openSettingsURLString) else { return assertionFailure("URL can not be found") }
+        guard let url = URL(string: UIApplication.openSettingsURLString) else {
+            return assertionFailure("URL can not be found")
+        }
         guard UIApplication.shared.canOpenURL(url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
@@ -253,7 +255,11 @@ private extension PlacesViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    func show(placeHolder showPlaceHolder: Bool = false, tableView showTableView: Bool = false, floatingScrollToTop showFloatingScrollToTop: Bool = false) {
+    func show(
+        placeHolder showPlaceHolder: Bool = false,
+        tableView showTableView: Bool = false,
+        floatingScrollToTop showFloatingScrollToTop: Bool = false
+    ) {
         placeholderView.isHidden = !showPlaceHolder
         tableView.isHidden = !showTableView
         floatingScrollToTopButton.isHidden = !showFloatingScrollToTop
@@ -266,8 +272,16 @@ private extension PlacesViewController {
 
     func handleAuthorizedStatusUI() {
         show(tableView: true)
-        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(sortButtonTapped))
-        let retryBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(retryRequest))
+        let addBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .search,
+            target: self,
+            action: #selector(sortButtonTapped)
+        )
+        let retryBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .play,
+            target: self,
+            action: #selector(retryRequest)
+        )
         navigationItem.rightBarButtonItems = [addBarButtonItem, retryBarButtonItem]
     }
 
@@ -291,7 +305,9 @@ private extension PlacesViewController {
     }
 
     func sendFetchPlacesEvent() {
-        guard let location = locationAuthorizationHandler.lastLocation else { debugPrint("Empty last location"); return }
+        guard let location = locationAuthorizationHandler.lastLocation else {
+            return debugPrint("Empty last location")
+        }
         eventSubject.onNext(.fetchPlaces(location))
     }
 }

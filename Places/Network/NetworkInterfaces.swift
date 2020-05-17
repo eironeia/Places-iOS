@@ -33,6 +33,7 @@ extension EndpointInterface {
 
 // MARK: - API
 
+// swiftlint:disable line_length
 // Inspired by: https://medium.com/@jamesrochabrun/protocol-based-generic-networking-using-jsondecoder-and-decodable-in-swift-4-fc9e889e8081
 protocol APIClient {
     var session: URLSession { get }
@@ -76,13 +77,17 @@ extension APIClient {
         return .create { single in
             let task = self.decodingTask(with: request, decodingType: T.self) { json, error in
                 guard let json = json else {
-                    if let error = error { single(.error(error)) }
-                    else { single(.error(APIError.invalidData)) }
+                    if let error = error {
+                        single(.error(error))
+                    } else {
+                        single(.error(APIError.invalidData))
+                    }
                     return
                 }
 
-                if let value = json as? T { single(.success(value)) }
-                else { single(.error(APIError.jsonParsingFailure)) }
+                if let value = json as? T {
+                    single(.success(value))
+                } else { single(.error(APIError.jsonParsingFailure)) }
             }
             task.resume()
             return Disposables.create()

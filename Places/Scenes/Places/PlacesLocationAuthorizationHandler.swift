@@ -6,7 +6,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDelegate, PlacesLocationAuthorizationHandlerInterface {
+final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDelegate {
     enum LocationStatus {
         case notDetermined
         case restricted
@@ -33,9 +33,9 @@ final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDeleg
     func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         sendLocationEvent(from: locations.last?.coordinate)
     }
+}
 
-    // MARK: PlacesLocationAuthorizationHandlerInterface
-
+extension PlacesLocationAuthorizationHandler: PlacesLocationAuthorizationHandlerInterface {
     func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             setupLocationManager()
@@ -74,7 +74,7 @@ private extension PlacesLocationAuthorizationHandler {
 
     func sendLocationEvent(from coordinate: CLLocationCoordinate2D?) {
         guard let coordinate = coordinate else {
-            debugPrint("Error: Device location is nil, please make sure location is activated, or if using simulator you are set a location.")
+            debugPrint("Location is not activated, or if using simulator you are set a location.")
             return
         }
         let location = Location(latitude: coordinate.latitude, longitude: coordinate.longitude)

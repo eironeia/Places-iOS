@@ -73,7 +73,8 @@ extension PlaceDetailsViewController: UITableViewDataSource {
             cell.setup(viewModel: viewModel)
             return cell
         case let .details(viewModels):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailsCell.identifier) as? DetailsCell else {
+            guard let cell = tableView
+                .dequeueReusableCell(withIdentifier: DetailsCell.identifier) as? DetailsCell else {
                 return nonFatalError(message: "Cell has not been registered.")
             }
             guard let viewModel = viewModels[safe: indexPath.row] else {

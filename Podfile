@@ -9,7 +9,7 @@ target 'Places' do
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
   pod 'PKHUD', '~> 5.0'
-  #pod 'SwiftLint'
+  pod 'SwiftLint'
   pod 'SwiftFormat/CLI'
 
   
