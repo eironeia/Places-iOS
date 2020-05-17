@@ -308,9 +308,6 @@
 				981B51C9246AC3950092D9DD /* Assets.xcassets */,
 				981B51CB246AC3950092D9DD /* LaunchScreen.storyboard */,
 				981B51CE246AC3950092D9DD /* Info.plist */,
-				98AFB2DE246D87B700D8C4CA /* CirceRounded-Bold.otf */,
-				98AFB2E0246D87E000D8C4CA /* CirceRounded-SemiBold.otf */,
-				98AFB2E2246D87FE00D8C4CA /* CirceRounded-Regular.otf */,
 				98DCCCD8246D33440063C049 /* MockAPI.bundle */,
 			);
 			path = Resources;
@@ -381,6 +378,9 @@
 		98DCCCDA246D77EE0063C049 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				98AFB2DE246D87B700D8C4CA /* CirceRounded-Bold.otf */,
+				98AFB2E0246D87E000D8C4CA /* CirceRounded-SemiBold.otf */,
+				98AFB2E2246D87FE00D8C4CA /* CirceRounded-Regular.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
