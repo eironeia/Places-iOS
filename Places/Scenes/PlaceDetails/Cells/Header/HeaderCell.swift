@@ -23,8 +23,10 @@ final class HeaderCell: UITableViewCell {
         setupUI()
     }
 
-    func setup(viewModel: HeaderCellViewModelInterface) {
+    func setup(with viewModel: HeaderCellViewModelInterface?) -> Self {
+        guard let viewModel = viewModel else { return self }
         headerLabel.text = viewModel.title
+        return self
     }
 }
 

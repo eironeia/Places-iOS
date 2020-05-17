@@ -67,21 +67,13 @@ extension PlaceDetailsViewController: UITableViewDataSource {
         }
         switch sectionType {
         case let .header(viewModel):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: HeaderCell.identifier) as? HeaderCell else {
-                return nonFatalError(message: "Cell has not been registered.")
-            }
-            cell.setup(viewModel: viewModel)
-            return cell
+            return tableView
+                .cell(as: HeaderCell.self)
+                .setup(with: viewModel)
         case let .details(viewModels):
-            guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: DetailsCell.identifier) as? DetailsCell else {
-                return nonFatalError(message: "Cell has not been registered.")
-            }
-            guard let viewModel = viewModels[safe: indexPath.row] else {
-                return nonFatalError(message: "Index out of bounds.")
-            }
-            cell.setup(viewModel: viewModel)
-            return cell
+            return tableView
+                .cell(as: DetailsCell.self)
+                .setup(with: viewModels[safe: indexPath.row])
         }
     }
 }
@@ -125,4 +117,10 @@ private extension PlaceDetailsViewController {
             self.dataSource = dataSource
         }
     }
+}
+
+// Monitoring example:
+func nonFatalError(message: String) -> UITableViewCell {
+    assertionFailure(message)
+    return UITableViewCell()
 }

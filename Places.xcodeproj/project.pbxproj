@@ -31,6 +31,8 @@
 		9874B9A7246EA1C70052E11A /* GetPlacesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874B9A6246EA1C70052E11A /* GetPlacesEndpoint.swift */; };
 		987B2CDF2471A6FD00455F56 /* EndpointInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CDE2471A6FD00455F56 /* EndpointInterface.swift */; };
 		987B2CE12471CC2900455F56 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CE02471CC2900455F56 /* Array+Extension.swift */; };
+		987B2CE32471DD1100455F56 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CE22471DD1100455F56 /* UITableView+Extension.swift */; };
+		987B2CE52471DF2C00455F56 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CE42471DF2C00455F56 /* UIAlertController+Extension.swift */; };
 		9882F7DF24714B53001C0B47 /* PlacesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9882F7DE24714B53001C0B47 /* PlacesViewModelTests.swift */; };
 		9888DB6A246AD7C400CCAE62 /* PlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */; };
 		9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */; };
@@ -95,6 +97,8 @@
 		9874B9A6246EA1C70052E11A /* GetPlacesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlacesEndpoint.swift; sourceTree = "<group>"; };
 		987B2CDE2471A6FD00455F56 /* EndpointInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointInterface.swift; sourceTree = "<group>"; };
 		987B2CE02471CC2900455F56 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		987B2CE22471DD1100455F56 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		987B2CE42471DF2C00455F56 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		9882F7DE24714B53001C0B47 /* PlacesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewModelTests.swift; sourceTree = "<group>"; };
 		9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewModel.swift; sourceTree = "<group>"; };
 		9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesCoordinator.swift; sourceTree = "<group>"; };
@@ -284,6 +288,8 @@
 				98DCCCDB246D78020063C049 /* UIColor+Extension.swift */,
 				98DCCCDD246D780D0063C049 /* UIFont+Extension.swift */,
 				987B2CE02471CC2900455F56 /* Array+Extension.swift */,
+				987B2CE22471DD1100455F56 /* UITableView+Extension.swift */,
+				987B2CE42471DF2C00455F56 /* UIAlertController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -650,6 +656,8 @@
 				98AFB2EF246E0E9500D8C4CA /* PlaceDetailsInterfaces.swift in Sources */,
 				9819371E246B6D81009DBE21 /* Rx+Extension.swift in Sources */,
 				987B2CDF2471A6FD00455F56 /* EndpointInterface.swift in Sources */,
+				987B2CE52471DF2C00455F56 /* UIAlertController+Extension.swift in Sources */,
+				987B2CE32471DD1100455F56 /* UITableView+Extension.swift in Sources */,
 				98DCCCD7246C527D0063C049 /* Constants.swift in Sources */,
 				98DCCCDC246D78020063C049 /* UIColor+Extension.swift in Sources */,
 				9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */,

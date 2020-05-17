@@ -83,10 +83,12 @@ final class PlaceCell: UITableViewCell {
         setupUI()
     }
 
-    func setup(viewModel: PlaceCellViewModelInterface) {
+    func setup(with viewModel: PlaceCellViewModelInterface?) -> Self {
+        guard let viewModel = viewModel else { return self }
         setup(availability: viewModel.availability)
         placeNameLabel.text = viewModel.name
         setup(rating: viewModel.rating)
+        return self
     }
 }
 

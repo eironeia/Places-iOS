@@ -111,14 +111,9 @@ extension PlacesViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlaceCell.identifier) as? PlaceCell else {
-            return nonFatalError(message: "Cell has not been registered.")
-        }
-        guard let viewModel = dataSource[safe: indexPath.row] else {
-            return nonFatalError(message: "Index out of bounds.")
-        }
-        cell.setup(viewModel: viewModel)
-        return cell
+        tableView
+            .cell(as: PlaceCell.self)
+            .setup(with: dataSource[safe: indexPath.row])
     }
 }
 
@@ -151,7 +146,7 @@ private extension PlacesViewController {
 
     func handleShowFloatingButton() {
         if let firstVisibleIndexPath = tableView.indexPathsForVisibleRows?.first {
-            floatingScrollToTopButton.isHidden = firstVisibleIndexPath.row < 5
+            floatingScrollToTopButton.isHidden = firstVisibleIndexPath.row < Constants.thresholdToShowScrollToTopButton
         } else {
             floatingScrollToTopButton.isHidden = true
         }
@@ -175,22 +170,20 @@ private extension PlacesViewController {
     }
 
     func handleRestrictedLocationAlert() {
-        let alert = alertFactory.makeRestrictedAlert(
-            action: ({ [weak self] _ in
+        alertFactory
+            .makeRestrictedAlert { [weak self] _ in
                 self?.handleNotAuthorizedUI(text: "Location is restricted 😢\nPlease change it on Settings ⚙️")
-            })
-        )
-        present(alert, animated: true, completion: nil)
+            }
+            .present(on: self)
     }
 
     func handleDeniedLocationStatus() {
-        let alert = alertFactory.makeDeniedAlert(
-            action: ({ [weak self] _ in
+        alertFactory
+            .makeDeniedAlert { [weak self] _ in
                 self?.handleNotAuthorizedUI(text: "Location denied 🙅🏻‍♂️\nPlease change it on Settings ⚙️")
                 self?.goToNativeSettingsPage()
-            })
-        )
-        present(alert, animated: true, completion: nil)
+            }
+            .present(on: self)
     }
 
     @objc
@@ -235,24 +228,25 @@ private extension PlacesViewController {
         case let .isLoading(isLoading):
             isLoading ? HUD.show(.progress) : HUD.hide()
         case let .error(error):
-            let alert = alertFactory.makeErrorAlert(title: error.information.title, message: error.information.message)
-            present(alert, animated: true, completion: nil)
+            alertFactory
+                .makeErrorAlert(title: error.information.title, message: error.information.message)
+                .present(on: self)
         case .idle: break
         }
     }
 
     @objc
     func sortButtonTapped() {
-        let alert = alertFactory.makeSortingCriteriaAlert(
-            rating: ({ [weak self] _ in
-                self?.eventSubject.onNext(.changeSortCriteria(.rating))
-            }),
-            availability: ({ [weak self] _ in
-                self?.eventSubject.onNext(.changeSortCriteria(.availability))
-            })
-        )
-
-        present(alert, animated: true, completion: nil)
+        alertFactory
+            .makeSortingCriteriaAlert(
+                rating: { [weak self] _ in
+                    self?.eventSubject.onNext(.changeSortCriteria(.rating))
+                },
+                availability: { [weak self] _ in
+                    self?.eventSubject.onNext(.changeSortCriteria(.availability))
+                }
+            )
+            .present(on: self)
     }
 
     func show(
@@ -310,10 +304,4 @@ private extension PlacesViewController {
         }
         eventSubject.onNext(.fetchPlaces(location))
     }
-}
-
-// Monitoring example:
-func nonFatalError(message: String) -> UITableViewCell {
-    assertionFailure(message)
-    return UITableViewCell()
 }

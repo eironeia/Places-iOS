@@ -38,9 +38,11 @@ final class DetailsCell: UITableViewCell {
         setupUI()
     }
 
-    func setup(viewModel: DetailsCellViewModelInterface) {
+    func setup(with viewModel: DetailsCellViewModelInterface?) -> Self {
+        guard let viewModel = viewModel else { return self }
         detailsTitle.text = viewModel.detailsTitle
         details.text = viewModel.details
+        return self
     }
 }
 

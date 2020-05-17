@@ -16,4 +16,6 @@ enum Constants {
         static var double: CGFloat = 18
         static var big: CGFloat = 20
     }
+
+    static var thresholdToShowScrollToTopButton: Int = 5
 }

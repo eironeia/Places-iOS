@@ -28,7 +28,7 @@ final class PlacesLocationAuthorizationHandler: NSObject {
 
 extension PlacesLocationAuthorizationHandler: CLLocationManagerDelegate {
     func locationManager(_: CLLocationManager, didChangeAuthorization _: CLAuthorizationStatus) {
-        handleLocationAuthorizationStatus()
+        handleLocationAuthorizationStatusChanges()
     }
 
     func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -40,7 +40,7 @@ extension PlacesLocationAuthorizationHandler: PlacesLocationAuthorizationHandler
     func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             setupLocationManager()
-            handleLocationAuthorizationStatus()
+            handleLocationAuthorizationStatusChanges()
         } else {
             locationStatusSubject.onNext(.restricted)
         }
@@ -54,7 +54,7 @@ private extension PlacesLocationAuthorizationHandler {
         locationManager.startUpdatingLocation()
     }
 
-    func handleLocationAuthorizationStatus() {
+    func handleLocationAuthorizationStatusChanges() {
         isUpdatingLocationFirstTime = true
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
