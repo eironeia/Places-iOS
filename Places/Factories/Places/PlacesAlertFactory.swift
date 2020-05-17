@@ -17,12 +17,11 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
     }
 
     func makeDeniedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController {
-
         let message = [
             "Possible reasons:",
             "Location permissions has been denied.",
             "Location services are off for the device in Settings.",
-            "Unavailable because the device is in Airplane mode."
+            "Unavailable because the device is in Airplane mode.",
         ].joined(separator: "\n")
 
         let alert = UIAlertController(
@@ -44,7 +43,7 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
         )
 
         alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
-        
+
         return alert
     }
 
@@ -52,7 +51,6 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
         rating: ((UIAlertAction) -> Void)?,
         availability: ((UIAlertAction) -> Void)?
     ) -> UIAlertController {
-
         let alert = UIAlertController(
             title: "Sort list",
             message: "Chose a sorting criteria method.",

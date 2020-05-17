@@ -4,7 +4,6 @@
 import UIKit
 
 final class DetailsCell: UITableViewCell {
-
     private let container: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = Constants.Spacing.default

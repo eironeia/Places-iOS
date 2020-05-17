@@ -2,10 +2,11 @@
 //  Copyright © 2020 Chama. All rights reserved.
 
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 
-//MARK: PlaceDetails ViewModel
+// MARK: PlaceDetails ViewModel
+
 protocol PlaceDetailsViewModelInterface {
     func transform(event: Observable<PlaceDetailsViewModel.Event>) -> Observable<PlaceDetailsViewModel.State>
 }

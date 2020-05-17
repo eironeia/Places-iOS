@@ -5,9 +5,8 @@ import UIKit
 
 extension UITableViewCell: Reusable {}
 
-
 protocol Reusable {
-    static var identifier: String {get}
+    static var identifier: String { get }
 }
 
 extension Reusable {

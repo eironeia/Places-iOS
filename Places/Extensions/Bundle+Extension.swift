@@ -7,7 +7,7 @@ extension Bundle {
     public class var mockAPI: Bundle {
         guard let bundlePath = Bundle.main.path(forResource: "MockAPI", ofType: "bundle"),
             let bundle = Bundle(path: bundlePath) else {
-                fatalError()
+            fatalError()
         }
         return bundle
     }

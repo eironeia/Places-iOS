@@ -30,7 +30,8 @@ struct PlaceDetailsViewModel: PlaceDetailsViewModelInterface {
     }
 }
 
-//MARK: - Private methods
+// MARK: - Private methods
+
 private extension PlaceDetailsViewModel {
     func handleEvent(event: Event) -> Observable<State> {
         switch event {
@@ -44,23 +45,23 @@ private extension PlaceDetailsViewModel {
             .sections(
                 [.header(HeaderCellViewModel(title: place.name)),
                  .details([
-                    DetailsCellViewModel(
-                        detailsTitle: "Availability 🗓",
-                        details: getAvailabilityDetails(isOpen: place.openingHours?.isOpen)
-                    ),
-                    DetailsCellViewModel(
-                        detailsTitle: "Rating ⭐️",
-                        details: getRatingDetails(rating: place.rating)
-                    ),
-                    DetailsCellViewModel(
-                        detailsTitle: "Total user reviews 👥",
-                        details: getUserRatingTotalDetails(totalOfReviews: place.userRatingsTotal)
-                    ),
-                    DetailsCellViewModel(
-                        detailsTitle: "Price level 🤑",
-                        details: getPriceLevellDetails(priceLevel: place.priceLevel)
-                    )])
-                ]
+                     DetailsCellViewModel(
+                         detailsTitle: "Availability 🗓",
+                         details: getAvailabilityDetails(isOpen: place.openingHours?.isOpen)
+                     ),
+                     DetailsCellViewModel(
+                         detailsTitle: "Rating ⭐️",
+                         details: getRatingDetails(rating: place.rating)
+                     ),
+                     DetailsCellViewModel(
+                         detailsTitle: "Total user reviews 👥",
+                         details: getUserRatingTotalDetails(totalOfReviews: place.userRatingsTotal)
+                     ),
+                     DetailsCellViewModel(
+                         detailsTitle: "Price level 🤑",
+                         details: getPriceLevellDetails(priceLevel: place.priceLevel)
+                     ),
+                 ])]
             )
         )
     }

@@ -4,7 +4,6 @@
 import UIKit
 
 final class PlaceCell: UITableViewCell {
-
     private let viewRadius: CGFloat = 8
 
     private lazy var cardShadowView: UIView = {
@@ -97,7 +96,7 @@ private extension PlaceCell {
     }
 
     func setupLayout() {
-        [cardShadowView, cardView].forEach({
+        [cardShadowView, cardView].forEach {
             addSubviewWithAutolayout($0)
             $0.fillSuperview(
                 withEdges: .init(
@@ -107,7 +106,7 @@ private extension PlaceCell {
                     right: Constants.Spacing.default
                 )
             )
-        })
+        }
 
         [availability, cardContentContainer].forEach(cardView.addSubviewWithAutolayout)
 
@@ -129,7 +128,7 @@ private extension PlaceCell {
             rightConstant: Constants.Spacing.double
         )
 
-        [placeName,ratingContainer].forEach(cardContentContainer.addArrangedSubview)
+        [placeName, ratingContainer].forEach(cardContentContainer.addArrangedSubview)
         [ratingTitle, ratingValue].forEach(ratingContainer.addArrangedSubview)
     }
 

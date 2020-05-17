@@ -4,7 +4,6 @@
 import UIKit
 
 final class HeaderCell: UITableViewCell {
-
     private let header: UILabel = {
         let label = UILabel()
         label.font = .circleRoundedFont(size: Constants.FontSize.big, type: .bold)

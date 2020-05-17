@@ -1,9 +1,9 @@
 //  Created by Alex Cuello Ortiz on 14/05/2020.
 //  Copyright © 2020 Chama. All rights reserved.
 
-import UIKit
-import RxSwift
 import RxCocoa
+import RxSwift
+import UIKit
 
 class PlaceDetailsViewController: UIViewController {
     deinit {
@@ -39,7 +39,7 @@ class PlaceDetailsViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    required init?(coder _: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,11 +49,11 @@ class PlaceDetailsViewController: UIViewController {
 }
 
 extension PlaceDetailsViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in _: UITableView) -> Int {
         dataSource.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionType = dataSource[safe: section] else { assertionFailure("Index out of bounds."); return 0 }
         switch sectionType {
         case .header: return 1
@@ -76,7 +76,7 @@ extension PlaceDetailsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailsCell.identifier) as? DetailsCell else {
                 return nonFatalError(message: "Cell has not been registered.")
             }
-            guard let viewModel = viewModels[safe: indexPath.row]  else {
+            guard let viewModel = viewModels[safe: indexPath.row] else {
                 return nonFatalError(message: "Index out of bounds.")
             }
             cell.setup(viewModel: viewModel)
@@ -85,9 +85,11 @@ extension PlaceDetailsViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - Private methods
+// MARK: - Private methods
+
 private extension PlaceDetailsViewController {
-    //MARK: Setup
+    // MARK: Setup
+
     func setup() {
         setupUI()
         setupLayout()
@@ -104,7 +106,8 @@ private extension PlaceDetailsViewController {
         tableView.fillSuperview()
     }
 
-    //MARK: ViewModel
+    // MARK: ViewModel
+
     func bindEvents() {
         viewModel
             .transform(event: eventSubject)
@@ -114,7 +117,7 @@ private extension PlaceDetailsViewController {
             })
             .disposed(by: disposeBag)
     }
-    
+
     func handle(state: PlaceDetailsViewModel.State) {
         switch state {
         case let .sections(dataSource):

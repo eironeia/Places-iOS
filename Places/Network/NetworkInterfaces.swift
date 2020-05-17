@@ -4,12 +4,14 @@
 import Foundation
 import RxSwift
 
-//MARK: - Endpoint
+// MARK: - Endpoint
+
 protocol EndpointInterface {
     var base: String { get }
     var path: String { get }
     var queryItems: [URLQueryItem] { get }
 }
+
 extension EndpointInterface {
     var apiKey: URLQueryItem {
         guard let key = ProcessInfo.processInfo.environment["PLACES_API_KEY"] else { fatalError("Missing API key") }
@@ -29,8 +31,9 @@ extension EndpointInterface {
     }
 }
 
-//MARK: - API
-//Inspired by: https://medium.com/@jamesrochabrun/protocol-based-generic-networking-using-jsondecoder-and-decodable-in-swift-4-fc9e889e8081
+// MARK: - API
+
+// Inspired by: https://medium.com/@jamesrochabrun/protocol-based-generic-networking-using-jsondecoder-and-decodable-in-swift-4-fc9e889e8081
 protocol APIClient {
     var session: URLSession { get }
     func rxRequest<T: Decodable>(with request: URLRequest) -> Single<T>
@@ -44,8 +47,7 @@ extension APIClient {
         completionHandler
         completion: @escaping JSONTaskCompletionHandler
     ) -> URLSessionDataTask {
-
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, _ in
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion(nil, .requestFailed)
                 return
@@ -62,20 +64,19 @@ extension APIClient {
 
             do {
                 let genericModel = try JSONDecoder().decode(decodingType, from: data)
-                 completion(genericModel, nil)
+                completion(genericModel, nil)
             } catch {
                 completion(nil, .jsonConversionFailure)
             }
-           
         }
         return task
     }
 
     func rxRequest<T: Decodable>(with request: URLRequest) -> Single<T> {
         return .create { single in
-            let task = self.decodingTask(with: request, decodingType: T.self) { (json , error) in
+            let task = self.decodingTask(with: request, decodingType: T.self) { json, error in
                 guard let json = json else {
-                    if let error = error { single(.error(error))}
+                    if let error = error { single(.error(error)) }
                     else { single(.error(APIError.invalidData)) }
                     return
                 }
@@ -86,6 +87,5 @@ extension APIClient {
             task.resume()
             return Disposables.create()
         }
-
     }
 }

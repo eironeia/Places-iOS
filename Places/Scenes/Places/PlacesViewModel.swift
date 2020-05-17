@@ -51,9 +51,11 @@ struct PlacesViewModel: PlacesViewModelInterface {
     }
 }
 
-//MARK: - Private methods
+// MARK: - Private methods
+
 private extension PlacesViewModel {
-    //MARK: Event handling
+    // MARK: Event handling
+
     func handleEvent(event: Event) -> Observable<State> {
         switch event {
         case let .fetchPlaces(location):
@@ -92,10 +94,10 @@ private extension PlacesViewModel {
         return sortingCriteriaSubject
             .withLatestFrom(placesSubject) { (sortingCriteria, places) -> [Place] in
                 self.sort(places: places, withCriteria: sortingCriteria)
-        }
-        .do(onNext: self.placesSubject.onNext)
-        .map(mapToPlacesCellViewModel)
-        .map(mapToPlacesState)
+            }
+            .do(onNext: placesSubject.onNext)
+            .map(mapToPlacesCellViewModel)
+            .map(mapToPlacesState)
     }
 
     func getStateForPlaceTapped(index: IndexPath) -> Observable<State> {
@@ -104,24 +106,24 @@ private extension PlacesViewModel {
             .withLatestFrom(placesSubject) { (indexPath, places) -> Void in
                 guard let place = places[safe: indexPath.row] else { return assertionFailure("Index out of bounds.") }
                 self.router.toPlaceDetails(place: place)
-        }
-        .map({ _ in .idle })
+            }
+            .map { _ in .idle }
     }
 
+    // MARK: Sort methods
 
-    //MARK: Sort methods
     func sort(places: [Place], withCriteria sortingCriteria: SortingCriteria) -> [Place] {
         switch sortingCriteria {
         case .rating:
-            return self.sortPlacesByRating(places: places)
+            return sortPlacesByRating(places: places)
         case .availability:
-            return self.sortPlacesByAvailability(places: places)
+            return sortPlacesByAvailability(places: places)
         }
     }
 
     func sortPlacesByRating(places: [Place]) -> [Place] {
         places.sorted { (place1, place2) -> Bool in
-            switch (place1.rating,place2.rating) {
+            switch (place1.rating, place2.rating) {
             case (nil, nil): return true
             case(nil, _): return false
             case(_, nil): return true
@@ -134,7 +136,7 @@ private extension PlacesViewModel {
 
     func sortPlacesByAvailability(places: [Place]) -> [Place] {
         places.sorted { (place1, place2) -> Bool in
-            switch (place1.openingHours?.isOpen,place2.openingHours?.isOpen) {
+            switch (place1.openingHours?.isOpen, place2.openingHours?.isOpen) {
             case (nil, nil): return true
             case(nil, _): return false
             case(_, nil): return true
@@ -144,7 +146,8 @@ private extension PlacesViewModel {
         }
     }
 
-    //MARK: Mapping
+    // MARK: Mapping
+
     func mapToPlacesCellViewModel(places: [Place]) -> [PlaceCellViewModel] {
         places.map(PlaceCellViewModel.init)
     }
@@ -153,7 +156,8 @@ private extension PlacesViewModel {
         .places(viewModels)
     }
 
-    //MARK: Error monitoring
+    // MARK: Error monitoring
+
     func monitorError(error: Error) {
         debugPrint(error.localizedDescription)
     }

@@ -408,6 +408,7 @@
 				981B51BA246AC3930092D9DD /* Frameworks */,
 				981B51BB246AC3930092D9DD /* Resources */,
 				9835BC0151D584DF6F4D4DD0 /* [CP] Embed Pods Frameworks */,
+				981B549524719B3200EC76D4 /* Format code */,
 			);
 			buildRules = (
 			);
@@ -516,6 +517,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PlacesTests/Pods-PlacesTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		981B549524719B3200EC76D4 /* Format code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"$SRCROOT/Places\"\n";
 		};
 		9835BC0151D584DF6F4D4DD0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

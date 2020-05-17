@@ -12,7 +12,7 @@ struct PlacesRepository: PlacesRepositoryInterface, APIClient {
     private let mockRepository = MockPlacesRepository(response: .success)
 
     init(configuration: URLSessionConfiguration = .default) {
-        self.session = URLSession(configuration: configuration)
+        session = URLSession(configuration: configuration)
     }
 
     func getPlaces(with location: Location) -> Single<GetPlacesResponse> {
@@ -31,7 +31,7 @@ struct MockPlacesRepository: PlacesRepositoryInterface {
 
     let response: Response
 
-    func getPlaces(with location: Location) -> Single<GetPlacesResponse> {
+    func getPlaces(with _: Location) -> Single<GetPlacesResponse> {
         switch response {
         case .success:
             return .just(getPlacesResponseFromMock(file: "getPlacesResponse"))
@@ -48,7 +48,7 @@ struct MockPlacesRepository: PlacesRepositoryInterface {
         let bundle = Bundle.mockAPI
         let fileExtension = "json"
         guard let filePath = bundle.url(forResource: file, withExtension: fileExtension) else {
-            fatalError("Cannot find the resource \(file).\(fileExtension) at bundle \(bundle.bundlePath)" )
+            fatalError("Cannot find the resource \(file).\(fileExtension) at bundle \(bundle.bundlePath)")
         }
 
         do {

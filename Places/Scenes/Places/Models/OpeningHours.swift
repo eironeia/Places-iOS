@@ -10,4 +10,3 @@ struct OpeningHours: Codable {
         case isOpen = "open_now"
     }
 }
-

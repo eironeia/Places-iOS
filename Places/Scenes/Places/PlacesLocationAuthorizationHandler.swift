@@ -1,10 +1,10 @@
 //  Created by Alex Cuello Ortiz on 13/05/2020.
 //  Copyright © 2020 Chama. All rights reserved.
 
-import UIKit
-import RxSwift
-import RxCocoa
 import CoreLocation
+import RxCocoa
+import RxSwift
+import UIKit
 
 final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDelegate, PlacesLocationAuthorizationHandlerInterface {
     enum LocationStatus {
@@ -14,24 +14,28 @@ final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDeleg
         case authorized(Location)
     }
 
-    //MARK: PlacesLocationAuthorizationHandlerInterface
+    // MARK: PlacesLocationAuthorizationHandlerInterface
+
     let locationStatusSubject = PublishSubject<LocationStatus>()
     var lastLocation: Location?
 
-    //MARK: Stored properties
+    // MARK: Stored properties
+
     private let locationManager = CLLocationManager()
     private var isUpdatingLocationFirstTime: Bool = true
 
-    //MARK: CLLocationManagerDelegate
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    // MARK: CLLocationManagerDelegate
+
+    func locationManager(_: CLLocationManager, didChangeAuthorization _: CLAuthorizationStatus) {
         handleLocationAuthorizationStatus()
     }
 
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         sendLocationEvent(from: locations.last?.coordinate)
     }
 
-    //MARK: PlacesLocationAuthorizationHandlerInterface
+    // MARK: PlacesLocationAuthorizationHandlerInterface
+
     func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             setupLocationManager()
@@ -42,7 +46,8 @@ final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDeleg
     }
 }
 
-//MARK: - Private methods
+// MARK: - Private methods
+
 private extension PlacesLocationAuthorizationHandler {
     func setupLocationManager() {
         locationManager.delegate = self
@@ -62,7 +67,7 @@ private extension PlacesLocationAuthorizationHandler {
             locationStatusSubject.onNext(.denied)
         case .authorizedWhenInUse, .authorizedAlways:
             sendLocationEvent(from: locationManager.location?.coordinate)
-        default: //Otherwise, it triggers a warning.
+        default: // Otherwise, it triggers a warning.
             assertionFailure("New state not handled, refer to documentation")
         }
     }

@@ -4,12 +4,10 @@
 import UIKit
 
 extension UIView {
-
     func addSubviewWithAutolayout(_ view: UIView) {
         addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
     }
-
 
     func fillSuperview(withEdges edges: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)) {
         guard let superView = superview else { return }
@@ -18,8 +16,8 @@ extension UIView {
             leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: edges.left),
             trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: -edges.right),
             topAnchor.constraint(equalTo: superView.topAnchor, constant: edges.top),
-            bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: -edges.bottom)
-            ])
+            bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: -edges.bottom),
+        ])
     }
 
     func anchor(top: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, topConstant: CGFloat = 0, leftConstant: CGFloat = 0, bottomConstant: CGFloat = 0, rightConstant: CGFloat = 0, widthConstant: CGFloat = 0, heightConstant: CGFloat = 0) {

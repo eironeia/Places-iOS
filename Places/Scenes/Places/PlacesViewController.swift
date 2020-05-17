@@ -1,11 +1,11 @@
 //  Created by Alex Cuello Ortiz on 12/05/2020.
 //  Copyright © 2020 Chama. All rights reserved.
 
-import UIKit
 import CoreLocation
-import RxSwift
-import RxCocoa
 import PKHUD
+import RxCocoa
+import RxSwift
+import UIKit
 
 final class PlacesViewController: UIViewController {
     deinit {
@@ -83,7 +83,7 @@ final class PlacesViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    required init?(coder _: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,21 +91,22 @@ final class PlacesViewController: UIViewController {
     }
 }
 
-//TableView Delegate
+// TableView Delegate
 extension PlacesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         eventSubject.onNext(.placeTapped(indexPath))
     }
 
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_: UIScrollView) {
         handleShowFloatingButton()
     }
 }
 
-//MARK - TableView DataSource
+// MARK: - TableView DataSource
+
 extension PlacesViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         dataSource.count
     }
 
@@ -121,9 +122,11 @@ extension PlacesViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - Private methods
+// MARK: - Private methods
+
 private extension PlacesViewController {
-    //MARK: Setup
+    // MARK: Setup
+
     func setup() {
         setupUI()
         setupLayout()
@@ -137,7 +140,7 @@ private extension PlacesViewController {
 
     func setupLayout() {
         [placeholderView, tableView, floatingScrollToTopButton].forEach(view.addSubview)
-        [placeholderView, tableView].forEach({ $0.fillSuperview() })
+        [placeholderView, tableView].forEach { $0.fillSuperview() }
         floatingScrollToTopButton.anchorCenterXToSuperview()
         floatingScrollToTopButton.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
@@ -147,14 +150,15 @@ private extension PlacesViewController {
     }
 
     func handleShowFloatingButton() {
-        if let firstVisibleIndexPath = self.tableView.indexPathsForVisibleRows?.first {
+        if let firstVisibleIndexPath = tableView.indexPathsForVisibleRows?.first {
             floatingScrollToTopButton.isHidden = firstVisibleIndexPath.row < 5
         } else {
             floatingScrollToTopButton.isHidden = true
         }
     }
 
-    //MARK: Location handling
+    // MARK: Location handling
+
     func handle(locationStatus: PlacesLocationAuthorizationHandler.LocationStatus) {
         navigationItem.rightBarButtonItems = nil
         switch locationStatus {
@@ -191,12 +195,13 @@ private extension PlacesViewController {
 
     @objc
     func goToNativeSettingsPage() {
-        guard let url = URL(string:UIApplication.openSettingsURLString) else { return assertionFailure("URL can not be found") }
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return assertionFailure("URL can not be found") }
         guard UIApplication.shared.canOpenURL(url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 
-    //MARK: ViewModel
+    // MARK: ViewModel
+
     func bindEvents() {
         viewModel
             .transform(event: eventSubject)
@@ -291,7 +296,7 @@ private extension PlacesViewController {
     }
 }
 
-//Monitoring example:
+// Monitoring example:
 func nonFatalError(message: String) -> UITableViewCell {
     assertionFailure(message)
     return UITableViewCell()
