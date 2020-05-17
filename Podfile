@@ -18,6 +18,7 @@ target 'Places' do
     # Pods for testing
     pod 'RxBlocking', '~> 5'
     pod 'RxTest', '~> 5'
+    pod 'SnapshotTesting', '~> 1.7.2'
   end
 
 end
