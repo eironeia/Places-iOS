@@ -4,7 +4,7 @@
 import Foundation
 import RxSwift
 
-struct PlacesRepository: PlacesRepositoryInterface, APIClient {
+struct PlacesRepository: PlacesRepositoryInterface, APIClientInterface {
     let session: URLSession
 
     // This is only meant to be just in case when trying the app Places API is not working.
@@ -16,7 +16,11 @@ struct PlacesRepository: PlacesRepositoryInterface, APIClient {
     }
 
     func getPlaces(with location: Location) -> Single<GetPlacesResponse> {
-//            rxRequest(with: GetPlacesEndpoint(location: location).request)
+//        guard let request = GetPlacesEndpoint(location: location).request else {
+//            debugPrint("Invalid URL.")
+//            return .error(APIError.invalidURL)
+//        }
+//        return rxRequest(with: request)
         mockRepository.getPlaces(with: location)
     }
 }

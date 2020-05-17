@@ -6,16 +6,10 @@ import Foundation
 protocol PlaceCellViewModelInterface {
     var name: String { get }
     var rating: Double? { get }
-    var availability: PlaceCellViewModel.Availability { get }
+    var availability: Place.Availability { get }
 }
 
 struct PlaceCellViewModel: PlaceCellViewModelInterface {
-    enum Availability: String {
-        case open = "Open"
-        case closed = "Closed"
-        case unknown = "Unknown"
-    }
-
     private let place: Place
 
     var name: String {
@@ -26,9 +20,8 @@ struct PlaceCellViewModel: PlaceCellViewModelInterface {
         place.rating
     }
 
-    var availability: Availability {
-        guard let isOpen = place.openingHours?.isOpen else { return .unknown }
-        return isOpen ? .open : .closed
+    var availability: Place.Availability {
+        place.availability
     }
 
     init(place: Place) {

@@ -2,7 +2,6 @@
 //  Copyright © 2020 Chama. All rights reserved.
 
 import Foundation
-import RxCocoa
 import RxSwift
 
 // MARK: PlaceDetails ViewModel

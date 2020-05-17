@@ -20,7 +20,7 @@ final class PlaceCell: UITableViewCell {
         return view
     }()
 
-    private let availability: UILabel = {
+    private let availabilityLabel: UILabel = {
         let label = UILabel()
         label.font = .circleRoundedFont(size: Constants.FontSize.double, type: .semiBold)
         label.textColor = .white
@@ -28,14 +28,14 @@ final class PlaceCell: UITableViewCell {
         return label
     }()
 
-    private let cardContentContainer: UIStackView = {
+    private let cardContentContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = Constants.Spacing.double
         stackView.axis = .vertical
         return stackView
     }()
 
-    private let placeName: UILabel = {
+    private let placeNameLabel: UILabel = {
         let label = UILabel()
         label.font = .circleRoundedFont(size: Constants.FontSize.double, type: .bold)
         label.textColor = .black
@@ -43,7 +43,7 @@ final class PlaceCell: UITableViewCell {
         return label
     }()
 
-    private let ratingContainer: UIStackView = {
+    private let ratingContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = Constants.Spacing.default
         stackView.axis = .vertical
@@ -51,14 +51,14 @@ final class PlaceCell: UITableViewCell {
         return stackView
     }()
 
-    private let ratingTitle: UILabel = {
+    private let ratingTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .circleRoundedFont(size: Constants.FontSize.small, type: .regular)
         label.textColor = .black
         return label
     }()
 
-    private let ratingValue: UILabel = {
+    private let ratingValueLabel: UILabel = {
         let label = UILabel()
         label.font = .circleRoundedFont(size: Constants.FontSize.default, type: .semiBold)
         label.textColor = .black
@@ -85,7 +85,7 @@ final class PlaceCell: UITableViewCell {
 
     func setup(viewModel: PlaceCellViewModelInterface) {
         setup(availability: viewModel.availability)
-        placeName.text = viewModel.name
+        placeNameLabel.text = viewModel.name
         setup(rating: viewModel.rating)
     }
 }
@@ -108,17 +108,17 @@ private extension PlaceCell {
             )
         }
 
-        [availability, cardContentContainer].forEach(cardView.addSubviewWithAutolayout)
+        [availabilityLabel, cardContentContainerView].forEach(cardView.addSubviewWithAutolayout)
 
-        availability.anchor(
+        availabilityLabel.anchor(
             top: cardView.topAnchor,
             left: cardView.leftAnchor,
             right: cardView.rightAnchor,
             heightConstant: 35
         )
 
-        cardContentContainer.anchor(
-            top: availability.bottomAnchor,
+        cardContentContainerView.anchor(
+            top: availabilityLabel.bottomAnchor,
             left: cardView.leftAnchor,
             bottom: cardView.bottomAnchor,
             right: cardView.rightAnchor,
@@ -128,25 +128,25 @@ private extension PlaceCell {
             rightConstant: Constants.Spacing.double
         )
 
-        [placeName, ratingContainer].forEach(cardContentContainer.addArrangedSubview)
-        [ratingTitle, ratingValue].forEach(ratingContainer.addArrangedSubview)
+        [placeNameLabel, ratingContainerView].forEach(cardContentContainerView.addArrangedSubview)
+        [ratingTitleLabel, ratingValueLabel].forEach(ratingContainerView.addArrangedSubview)
     }
 
-    func setup(availability: PlaceCellViewModel.Availability) {
-        self.availability.text = availability.rawValue
+    func setup(availability: Place.Availability) {
+        availabilityLabel.text = availability.rawValue
         switch availability {
-        case .open: self.availability.backgroundColor = .customGreen
-        case .closed: self.availability.backgroundColor = .customRed
-        case .unknown: self.availability.backgroundColor = .customBlue
+        case .open: availabilityLabel.backgroundColor = .customGreen
+        case .closed: availabilityLabel.backgroundColor = .customRed
+        case .unknown: availabilityLabel.backgroundColor = .customBlue
         }
     }
 
     func setup(rating: Double?) {
-        ratingTitle.text = "Ratings"
+        ratingTitleLabel.text = "Ratings"
         if let rating = rating {
-            ratingValue.text = "\(rating) ⭐️"
+            ratingValueLabel.text = "\(rating) ⭐️"
         } else {
-            ratingValue.text = "-"
+            ratingValueLabel.text = "-"
         }
     }
 }

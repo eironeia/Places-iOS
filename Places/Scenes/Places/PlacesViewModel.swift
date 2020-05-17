@@ -4,7 +4,7 @@
 import Foundation
 import RxSwift
 
-struct PlacesViewModel: PlacesViewModelInterface {
+struct PlacesViewModel {
     enum ErrorType: Error {
         case generic
 
@@ -43,7 +43,11 @@ struct PlacesViewModel: PlacesViewModelInterface {
         self.repository = repository
         self.router = router
     }
+}
 
+// MARK: - PlacesViewModel Interface
+
+extension PlacesViewModel: PlacesViewModelInterface {
     func transform(event: Observable<Event>) -> Observable<State> {
         let outputState = event.flatMapLatest(handleEvent)
         let isLoading = isLoadingSubject.map(State.isLoading)
@@ -54,8 +58,6 @@ struct PlacesViewModel: PlacesViewModelInterface {
 // MARK: - Private methods
 
 private extension PlacesViewModel {
-    // MARK: Event handling
-
     func handleEvent(event: Event) -> Observable<State> {
         switch event {
         case let .fetchPlaces(location):
@@ -67,39 +69,57 @@ private extension PlacesViewModel {
         }
     }
 
+    func monitorError(error: Error) {
+        debugPrint(error.localizedDescription)
+    }
+}
+
+// MARK: - Fetch places event
+
+private extension PlacesViewModel {
     func getStateForFetchPlacesEvent(with location: Location) -> Observable<State> {
         isLoadingSubject.onNext(true)
         return repository
             .getPlaces(with: location)
             .asObservable()
-            .withLatestFrom(sortingCriteriaSubject, resultSelector: mapToState)
+            .withLatestFrom(sortingCriteriaSubject, resultSelector: mapToSortedPlacesResult)
+            .savePlacesIfSuccess(to: placesSubject)
+            .mapToState()
             .stopLoading(loadingSubject: isLoadingSubject)
     }
 
-    func mapToState(placesResponse: GetPlacesResponse, sortingCriteria: SortingCriteria) -> State {
-        switch placesResponse.status {
+    func mapToSortedPlacesResult(
+        response: GetPlacesResponse,
+        sortingCriteria: SortingCriteria
+    ) -> Result<[Place], ErrorType> {
+        switch response.status {
         case .success, .noResults:
-            let places = placesResponse.places
-            let sortedPlaces = sort(places: places, withCriteria: sortingCriteria)
-            placesSubject.onNext(places)
-            let cellViewModels = mapToPlacesCellViewModel(places: sortedPlaces)
-            return .places(cellViewModels)
+            return .success(
+                response.places.sortedBy(sortingCriteria: sortingCriteria)
+            )
         case .invalidRequest, .overQuota, .requestDenied, .unknown:
-            return .error(.generic)
+            return .failure(.generic)
         }
     }
+}
 
+// MARK: - Change sort criteria event
+
+private extension PlacesViewModel {
     func getStateForChangeSortCriteria(criteria: SortingCriteria) -> Observable<State> {
         sortingCriteriaSubject.onNext(criteria)
         return sortingCriteriaSubject
             .withLatestFrom(placesSubject) { (sortingCriteria, places) -> [Place] in
-                self.sort(places: places, withCriteria: sortingCriteria)
+                places.sortedBy(sortingCriteria: sortingCriteria)
             }
             .do(onNext: placesSubject.onNext)
-            .map(mapToPlacesCellViewModel)
-            .map(mapToPlacesState)
+            .map { $0.mapToPlacesState() }
     }
+}
 
+// MARK: - Place tapped event
+
+private extension PlacesViewModel {
     func getStateForPlaceTapped(index: IndexPath) -> Observable<State> {
         Observable
             .just(index)
@@ -107,61 +127,26 @@ private extension PlacesViewModel {
                 guard let place = places[safe: indexPath.row] else { return assertionFailure("Index out of bounds.") }
                 self.router.toPlaceDetails(place: place)
             }
-            .map { _ in .idle }
+            .map { .idle }
     }
+}
 
-    // MARK: Sort methods
-
-    func sort(places: [Place], withCriteria sortingCriteria: SortingCriteria) -> [Place] {
-        switch sortingCriteria {
-        case .rating:
-            return sortPlacesByRating(places: places)
-        case .availability:
-            return sortPlacesByAvailability(places: places)
-        }
-    }
-
-    func sortPlacesByRating(places: [Place]) -> [Place] {
-        places.sorted { (place1, place2) -> Bool in
-            switch (place1.rating, place2.rating) {
-            case (nil, nil): return true
-            case(nil, _): return false
-            case(_, nil): return true
-            case let (rating1, rating2):
-                guard let r1 = rating1, let r2 = rating2 else {
-                    assertionFailure("This should never be triggered.")
-                    return false
-                }
-                return r1 > r2
+extension ObservableType where Element == Result<[Place], PlacesViewModel.ErrorType> {
+    func mapToState() -> Observable<PlacesViewModel.State> {
+        map { result in
+            switch result {
+            case let .success(places):
+                return places.mapToPlacesState()
+            case let .failure(error):
+                return .error(error)
             }
         }
     }
 
-    func sortPlacesByAvailability(places: [Place]) -> [Place] {
-        places.sorted { (place1, place2) -> Bool in
-            switch (place1.openingHours?.isOpen, place2.openingHours?.isOpen) {
-            case (nil, nil): return true
-            case(nil, _): return false
-            case(_, nil): return true
-            case let (isOpen1, _):
-                return isOpen1 ?? false
-            }
-        }
-    }
-
-    // MARK: Mapping
-
-    func mapToPlacesCellViewModel(places: [Place]) -> [PlaceCellViewModel] {
-        places.map(PlaceCellViewModel.init)
-    }
-
-    func mapToPlacesState(viewModels: [PlaceCellViewModel]) -> State {
-        .places(viewModels)
-    }
-
-    // MARK: Error monitoring
-
-    func monitorError(error: Error) {
-        debugPrint(error.localizedDescription)
+    func savePlacesIfSuccess(to storage: BehaviorSubject<[Place]>) -> Observable<Element> {
+        self.do(onNext: { result in
+            guard case let .success(places) = result else { return }
+            storage.onNext(places)
+        })
     }
 }

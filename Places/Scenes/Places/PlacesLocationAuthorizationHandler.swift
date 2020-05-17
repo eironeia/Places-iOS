@@ -6,7 +6,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDelegate {
+final class PlacesLocationAuthorizationHandler: NSObject {
     enum LocationStatus {
         case notDetermined
         case restricted
@@ -14,18 +14,19 @@ final class PlacesLocationAuthorizationHandler: NSObject, CLLocationManagerDeleg
         case authorized(Location)
     }
 
-    // MARK: PlacesLocationAuthorizationHandlerInterface
+    // MARK: PlacesLocationAuthorizationHandler Interface
 
-    let locationStatusSubject = PublishSubject<LocationStatus>()
-    var lastLocation: Location?
+    private let locationStatusSubject = PublishSubject<LocationStatus>()
+    lazy var locationStatusObservable: Observable<LocationStatus> = locationStatusSubject.asObservable()
+    private(set) var lastLocation: Location?
 
     // MARK: Stored properties
 
     private let locationManager = CLLocationManager()
     private var isUpdatingLocationFirstTime: Bool = true
+}
 
-    // MARK: CLLocationManagerDelegate
-
+extension PlacesLocationAuthorizationHandler: CLLocationManagerDelegate {
     func locationManager(_: CLLocationManager, didChangeAuthorization _: CLAuthorizationStatus) {
         handleLocationAuthorizationStatus()
     }
@@ -45,8 +46,6 @@ extension PlacesLocationAuthorizationHandler: PlacesLocationAuthorizationHandler
         }
     }
 }
-
-// MARK: - Private methods
 
 private extension PlacesLocationAuthorizationHandler {
     func setupLocationManager() {

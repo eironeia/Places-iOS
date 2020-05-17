@@ -4,11 +4,13 @@
 import Foundation
 
 enum APIError: Error {
+    case invalidURL
     case requestFailed
     case jsonConversionFailure
     case invalidData
     case responseUnsuccessful
     case jsonParsingFailure
+
     var localizedDescription: String {
         switch self {
         case .requestFailed: return "Request Failed"
@@ -16,6 +18,7 @@ enum APIError: Error {
         case .responseUnsuccessful: return "Response Unsuccessful"
         case .jsonParsingFailure: return "JSON Parsing Failure"
         case .jsonConversionFailure: return "JSON Conversion Failure"
+        case .invalidURL: return "Invalid url"
         }
     }
 }

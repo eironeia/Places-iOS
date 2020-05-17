@@ -4,7 +4,7 @@
 import UIKit
 
 final class HeaderCell: UITableViewCell {
-    private let header: UILabel = {
+    private let headerLabel: UILabel = {
         let label = UILabel()
         label.font = .circleRoundedFont(size: Constants.FontSize.big, type: .bold)
         label.textColor = .black
@@ -24,7 +24,7 @@ final class HeaderCell: UITableViewCell {
     }
 
     func setup(viewModel: HeaderCellViewModelInterface) {
-        header.text = viewModel.title
+        headerLabel.text = viewModel.title
     }
 }
 
@@ -34,8 +34,8 @@ private extension HeaderCell {
     }
 
     func setupLayout() {
-        addSubviewWithAutolayout(header)
-        header.fillSuperview(
+        addSubviewWithAutolayout(headerLabel)
+        headerLabel.fillSuperview(
             withEdges: .init(
                 top: Constants.Spacing.double,
                 left: Constants.Spacing.default,

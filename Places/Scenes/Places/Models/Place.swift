@@ -3,12 +3,27 @@
 
 import Foundation
 
-struct Place: Codable {
+final class Place: Codable {
+    enum Availability: String {
+        case open = "Open"
+        case closed = "Closed"
+        case unknown = "Unknown"
+    }
+
     let name: String
     let openingHours: OpeningHours?
+
     let priceLevel: Int?
     let rating: Double?
     let userRatingsTotal: Int?
+
+    var availability: Availability {
+        if let isOpen = openingHours?.isOpen {
+            return isOpen ? .open : .closed
+        } else {
+            return .unknown
+        }
+    }
 
     enum CodingKeys: String, CodingKey {
         case name

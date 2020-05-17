@@ -4,7 +4,7 @@
 import UIKit
 
 final class PlaceholderView: UIView {
-    private let title: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .circleRoundedFont(size: 28, type: .bold)
         label.textColor = .black
@@ -20,19 +20,18 @@ final class PlaceholderView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupLayout()
     }
 
     func setup(text: String) {
-        title.text = text
+        titleLabel.text = text
     }
 }
 
 private extension PlaceholderView {
     func setupLayout() {
-        addSubviewWithAutolayout(title)
-        title.anchorCenterYToSuperview()
-        title.anchor(
+        addSubviewWithAutolayout(titleLabel)
+        titleLabel.anchorCenterYToSuperview()
+        titleLabel.anchor(
             left: leftAnchor,
             right: rightAnchor,
             leftConstant: Constants.Spacing.default,

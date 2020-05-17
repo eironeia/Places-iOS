@@ -47,7 +47,7 @@ private extension PlaceDetailsViewModel {
                  .details([
                      DetailsCellViewModel(
                          detailsTitle: "Availability 🗓",
-                         details: getAvailabilityDetails(isOpen: place.openingHours?.isOpen)
+                         details: place.availability.rawValue
                      ),
                      DetailsCellViewModel(
                          detailsTitle: "Rating ⭐️",
@@ -64,13 +64,6 @@ private extension PlaceDetailsViewModel {
                  ])]
             )
         )
-    }
-
-    func getAvailabilityDetails(isOpen: Bool?) -> String {
-        guard let isOpen = isOpen else { return PlaceCellViewModel.Availability.unknown.rawValue }
-        return isOpen
-            ? PlaceCellViewModel.Availability.open.rawValue
-            : PlaceCellViewModel.Availability.closed.rawValue
     }
 
     func getRatingDetails(rating: Double?) -> String {

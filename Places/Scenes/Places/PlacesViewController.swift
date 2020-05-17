@@ -214,7 +214,7 @@ private extension PlacesViewController {
             .disposed(by: disposeBag)
 
         locationAuthorizationHandler
-            .locationStatusSubject
+            .locationStatusObservable
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] locationStatus in
                 self?.handle(locationStatus: locationStatus)

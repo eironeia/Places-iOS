@@ -4,7 +4,7 @@
 import UIKit
 
 struct PlacesAlertFactory: PlacesAlertFactoryInterface {
-    func makeRestrictedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController {
+    func makeRestrictedAlert(action: InputClosure<UIAlertAction>?) -> UIAlertController {
         let alert = UIAlertController(
             title: "Resricted location",
             message: "Location is being restricted. Probably, due to parental restrictions.",

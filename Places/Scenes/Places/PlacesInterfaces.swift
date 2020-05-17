@@ -9,7 +9,7 @@ import UIKit
 // MARK: - Alert Factory
 
 protocol PlacesAlertFactoryInterface {
-    func makeRestrictedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController
+    func makeRestrictedAlert(action: InputClosure<UIAlertAction>?) -> UIAlertController
     func makeDeniedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController
     func makeErrorAlert(title: String, message: String) -> UIAlertController
     func makeSortingCriteriaAlert(
@@ -21,7 +21,7 @@ protocol PlacesAlertFactoryInterface {
 // MARK: - Location Authorization
 
 protocol PlacesLocationAuthorizationHandlerInterface {
-    var locationStatusSubject: PublishSubject<PlacesLocationAuthorizationHandler.LocationStatus> { get }
+    var locationStatusObservable: Observable<PlacesLocationAuthorizationHandler.LocationStatus> { get }
     var lastLocation: Location? { get }
     func checkLocationServices()
 }
