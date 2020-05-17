@@ -12,8 +12,8 @@ struct PlacesRepository: PlacesRepositoryInterface, APIClient {
     }
 
     func getPlaces(with location: Location) -> Single<GetPlacesResponse> {
-//            rxRequest(with: GetPlacesEndpoint(location: location).request)
-        getPlacesFromMock()
+            rxRequest(with: GetPlacesEndpoint(location: location).request)
+//        getPlacesFromMock()
     }
 }
 

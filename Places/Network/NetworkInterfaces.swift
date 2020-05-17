@@ -12,7 +12,6 @@ protocol EndpointInterface {
 }
 extension EndpointInterface {
     var apiKey: URLQueryItem {
-        #warning("Please replace with your own one")
         guard let key = ProcessInfo.processInfo.environment["PLACES_API_KEY"] else { fatalError("Missing API key") }
         return URLQueryItem(name: "key", value: key)
     }
