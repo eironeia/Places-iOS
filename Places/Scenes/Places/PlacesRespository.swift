@@ -31,20 +31,30 @@ struct MockPlacesRepository: PlacesRepositoryInterface {
         case noResults
         case overQuota
         case requestDenied
+        case successSortedByRating
+        case successSortedByAvailability
     }
 
     let response: Response
 
     func getPlaces(with _: Location) -> Single<GetPlacesResponse> {
+        .just(getPlacesFromMock(with: response))
+    }
+
+    func getPlacesFromMock(with response: Response) -> GetPlacesResponse {
         switch response {
         case .success:
-            return .just(getPlacesResponseFromMock(file: "getPlacesResponse"))
+            return getPlacesResponseFromMock(file: "getPlacesResponse")
         case .noResults:
-            return .just(getPlacesResponseFromMock(file: "getPlacesResponseZeroResults"))
+            return getPlacesResponseFromMock(file: "getPlacesResponseZeroResults")
         case .overQuota:
-            return .just(getPlacesResponseFromMock(file: "getPlacesResponseQuotaLimit"))
+            return getPlacesResponseFromMock(file: "getPlacesResponseQuotaLimit")
         case .requestDenied:
-            return .just(getPlacesResponseFromMock(file: "getPlacesResponseRequestDenied"))
+            return getPlacesResponseFromMock(file: "getPlacesResponseRequestDenied")
+        case .successSortedByRating:
+            return getPlacesResponseFromMock(file: "getSortedPlacesByRatingResponse")
+        case .successSortedByAvailability:
+            return getPlacesResponseFromMock(file: "getSortedPlacesByActivityResponse")
         }
     }
 
