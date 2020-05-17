@@ -36,7 +36,6 @@ struct PlacesViewModel: PlacesViewModelInterface {
     private let repository: PlacesRepositoryInterface
     private let router: PlacesCoordinatorInterface
     private let isLoadingSubject = PublishSubject<Bool>()
-    private let errorSubject = PublishSubject<ErrorType>()
     private let placesSubject = BehaviorSubject<[Place]>(value: [])
     private let sortingCriteriaSubject = BehaviorSubject<SortingCriteria>(value: .rating)
 
@@ -48,8 +47,7 @@ struct PlacesViewModel: PlacesViewModelInterface {
     func transform(event: Observable<Event>) -> Observable<State> {
         let outputState = event.flatMapLatest(handleEvent)
         let isLoading = isLoadingSubject.map(State.isLoading)
-        let error = errorSubject.map(State.error)
-        return Observable.merge(outputState, isLoading, error)
+        return Observable.merge(outputState, isLoading)
     }
 }
 
@@ -71,20 +69,22 @@ private extension PlacesViewModel {
         isLoadingSubject.onNext(true)
         return repository
             .getPlaces(with: location)
-            .flatMap({ placesResponse -> Single<[Place]> in
-                guard case GetPlacesResponse.StatusCode.success = placesResponse.status else {
-                    debugPrint(placesResponse.status.localizedDescription)
-                    return .error(ErrorType.generic)
-                }
-                return .just(placesResponse.places)
-            })
-            .do(onError: handleError)
             .asObservable()
-            .withLatestFrom(sortingCriteriaSubject, resultSelector: sort)
-            .do(onNext: self.placesSubject.onNext)
+            .withLatestFrom(sortingCriteriaSubject, resultSelector: mapToState)
             .stopLoading(loadingSubject: isLoadingSubject)
-            .map(mapToPlacesCellViewModel)
-            .map(mapToPlacesState)
+    }
+
+    func mapToState(placesResponse: GetPlacesResponse, sortingCriteria: SortingCriteria) -> State {
+        switch placesResponse.status {
+        case .success, .noResults:
+            let places = placesResponse.places
+            let sortedPlaces = sort(places: places, withCriteria: sortingCriteria)
+            placesSubject.onNext(places)
+            let cellViewModels = mapToPlacesCellViewModel(places: sortedPlaces)
+            return .places(cellViewModels)
+        case .invalidRequest, .overQuota, .requestDenied, .unknown:
+            return .error(.generic)
+        }
     }
 
     func getStateForChangeSortCriteria(criteria: SortingCriteria) -> Observable<State> {
@@ -153,42 +153,8 @@ private extension PlacesViewModel {
         .places(viewModels)
     }
 
-    //MARK: Error handling
-    func handleError(error: Error) {
+    //MARK: Error monitoring
+    func monitorError(error: Error) {
         debugPrint(error.localizedDescription)
-        if let error = error as? APIError {
-            handleAPIError(error)
-        } else if let error = error as? GetPlacesResponse.StatusCode {
-            handleGetPlacesStatusCode(error)
-        } else {
-            errorSubject.onNext(.generic)
-        }
-    }
-
-    func handleAPIError(_ error: APIError) {
-        switch error {
-        case .requestFailed:
-            errorSubject.onNext(.generic)
-        case .jsonConversionFailure:
-            debugPrint("Wrong model type while decoding JSON.")
-            errorSubject.onNext(.generic)
-        case .invalidData:
-            debugPrint("Invalid data")
-            errorSubject.onNext(.generic)
-        case .responseUnsuccessful:
-            errorSubject.onNext(.generic)
-        case .jsonParsingFailure:
-            debugPrint("Error parsing JSON.")
-            errorSubject.onNext(.generic)
-        }
-    }
-
-    func handleGetPlacesStatusCode(_ statusCode: GetPlacesResponse.StatusCode) {
-        switch statusCode {
-        case .success: break
-        case .noResults, .overQuota, .requestDenied, .invalidRequest, .unknown:
-            debugPrint(statusCode.localizedDescription)
-            errorSubject.onNext(.generic)
-        }
     }
 }

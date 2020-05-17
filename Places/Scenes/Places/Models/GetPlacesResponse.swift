@@ -4,7 +4,7 @@
 import Foundation
 
 struct GetPlacesResponse: Codable {
-    enum StatusCode: String, Codable {
+    enum StatusCode: String, Codable, Equatable {
         case success = "OK"
         case noResults = "ZERO_RESULTS"
         case overQuota = "OVER_QUERY_LIMIT"

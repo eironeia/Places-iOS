@@ -10,7 +10,7 @@ import CoreLocation
 protocol PlacesAlertFactoryInterface {
     func makeRestrictedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController
     func makeDeniedAlert(action: ((UIAlertAction) -> Void)?) -> UIAlertController
-    func makeErrorAlert(error: PlacesViewModel.ErrorType) -> UIAlertController
+    func makeErrorAlert(title: String, message: String) -> UIAlertController
     func makeSortingCriteriaAlert(rating: ((UIAlertAction) -> Void)?, availability: ((UIAlertAction) -> Void)?) -> UIAlertController
 }
 

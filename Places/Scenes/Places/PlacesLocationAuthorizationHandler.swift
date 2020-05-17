@@ -69,7 +69,7 @@ private extension PlacesLocationAuthorizationHandler {
 
     func sendLocationEvent(from coordinate: CLLocationCoordinate2D?) {
         guard let coordinate = coordinate else {
-            debugPrint("Error: Coordinate is nil, please activate services")
+            debugPrint("Error: Device location is nil, please make sure location is activated, or if using simulator you are set a location.")
             return
         }
         let location = Location(latitude: coordinate.latitude, longitude: coordinate.longitude)

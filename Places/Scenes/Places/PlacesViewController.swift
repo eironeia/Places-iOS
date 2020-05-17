@@ -155,9 +155,9 @@ private extension PlacesViewController {
     }
 
     //MARK: Location handling
-    func handleLocationStatus(status: PlacesLocationAuthorizationHandler.LocationStatus) {
+    func handle(locationStatus: PlacesLocationAuthorizationHandler.LocationStatus) {
         navigationItem.rightBarButtonItems = nil
-        switch status {
+        switch locationStatus {
         case .notDetermined:
             handleNotAuthorizedUI(text: "Waiting for location approval ✅")
         case .restricted:
@@ -210,7 +210,7 @@ private extension PlacesViewController {
             .locationStatusSubject
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] locationStatus in
-                self?.handleLocationStatus(status: locationStatus)
+                self?.handle(locationStatus: locationStatus)
             })
             .disposed(by: disposeBag)
 
@@ -221,11 +221,15 @@ private extension PlacesViewController {
         switch state {
         case let .places(viewModels):
             dataSource = viewModels
-        case let .error(error):
-            let alert = alertFactory.makeErrorAlert(error: error)
-            present(alert, animated: true, completion: nil)
+            if dataSource.isEmpty {
+                show(placeHolder: false)
+                placeholderView.setup(text: "There are no nearby places 😞")
+            }
         case let .isLoading(isLoading):
             isLoading ? HUD.show(.progress) : HUD.hide()
+        case let .error(error):
+            let alert = alertFactory.makeErrorAlert(title: error.information.title, message: error.information.message)
+            present(alert, animated: true, completion: nil)
         case .idle: break
         }
     }
@@ -244,17 +248,19 @@ private extension PlacesViewController {
         present(alert, animated: true, completion: nil)
     }
 
+    func show(placeHolder showPlaceHolder: Bool = false, tableView showTableView: Bool = false, floatingScrollToTop showFloatingScrollToTop: Bool = false) {
+        placeholderView.isHidden = !showPlaceHolder
+        tableView.isHidden = !showTableView
+        floatingScrollToTopButton.isHidden = !showFloatingScrollToTop
+    }
+
     func handleNotAuthorizedUI(text: String) {
-        placeholderView.isHidden = false
-        tableView.isHidden = true
-        floatingScrollToTopButton.isHidden = true
+        show(placeHolder: true)
         placeholderView.setup(text: text)
     }
 
     func handleAuthorizedStatusUI() {
-        placeholderView.isHidden = true
-        tableView.isHidden = false
-        floatingScrollToTopButton.isHidden = true
+        show(tableView: true)
         let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(sortButtonTapped))
         let retryBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(retryRequest))
         navigationItem.rightBarButtonItems = [addBarButtonItem, retryBarButtonItem]

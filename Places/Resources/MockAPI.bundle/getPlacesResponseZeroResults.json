@@ -1,6 +1,6 @@
 {
-   "error_message": "You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account",
+   "error_message": "No results on this area.",
    "html_attributions": [],
    "results": [],
-   "status": "OVER_QUERY_LIMIT"
+   "status": "ZERO_RESULTS"
 }

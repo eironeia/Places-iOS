@@ -3,57 +3,136 @@
 
 import XCTest
 import RxSwift
+import RxTest
 @testable import Places
 
-struct MockPlacesRepository: PlacesRepositoryInterface {
-    func getPlaces(with location: Location) -> Single<GetPlacesResponse> {
-        return .just(GetPlacesResponse(places: [], status: .success))
-    }
-}
 
 struct MockPlacesCoordinator: PlacesCoordinatorInterface {
     var toPlacesCalled: VoidClosure?
-    var toPlacesDetailsCalled: InputClosure<Place>?
+    var toPlacesDetailsCalled: VoidClosure?
 
     func toPlaces() {
-
+        toPlacesCalled?()
     }
 
     func toPlaceDetails(place: Place) {
-
+        toPlacesDetailsCalled?()
     }
-
-
 }
 
-class PlacesViewModelTests: XCTestCase {
+final class PlacesViewModelTests: XCTestCase {
 
-    private var scheduler: TestScheduler
+    private var scheduler: TestScheduler!
+    private var mockRepository: MockPlacesRepository!
+    private var mockPlacesCoordinator:MockPlacesCoordinator!
+    private var location: Location!
+    private var disposeBag: DisposeBag!
+    //SUT
+    private var viewModel: PlacesViewModelInterface!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
+        mockPlacesCoordinator = MockPlacesCoordinator()
+        location = Location(latitude: -33.8669667, longitude: 151.1958862)
+        scheduler = TestScheduler(initialClock: 0)
+        disposeBag = DisposeBag()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        scheduler = nil
+        mockRepository = nil
+        mockPlacesCoordinator = nil
+        location = nil
+        viewModel = nil
+        disposeBag = nil
+        super.tearDown()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func test_givenPlacesViewModel_whenFetchPlacesEvent_and_successResponse_thenPlacesState() {
+        mockRepository = MockPlacesRepository(response: .success)
+        viewModel = makeSUT()
+
+        let eventSubject: TestableObservable<PlacesViewModel.Event> = scheduler
+            .createHotObservable([
+                .next(10, PlacesViewModel.Event.fetchPlaces(location))
+            ])
+
+        let state = viewModel.transform(event: eventSubject.asObservable())
+        let stateResultSubject = scheduler.createObserver(PlacesViewModel.State.self)
+        state.bind(to: stateResultSubject).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        let expectedStateEvents: [Recorded<Event<PlacesViewModel.State>>] = [
+            .next(10, .isLoading(true)),
+            .next(10, .isLoading(false)),
+            .next(10, .places([])),
+        ]
+        XCTAssertEqual(stateResultSubject.events, expectedStateEvents)
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func test_givenPlacesViewModel_whenFetchPlacesEvent_and_zeroResultsResponse_thenPlacesState() {
+        mockRepository = MockPlacesRepository(response: .noResults)
+        viewModel = makeSUT()
+
+        let eventSubject: TestableObservable<PlacesViewModel.Event> = scheduler
+            .createHotObservable([
+                .next(10, PlacesViewModel.Event.fetchPlaces(location))
+            ])
+
+        let state = viewModel.transform(event: eventSubject.asObservable())
+        let stateResultSubject = scheduler.createObserver(PlacesViewModel.State.self)
+        state.bind(to: stateResultSubject).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        let expectedStateEvents: [Recorded<Event<PlacesViewModel.State>>] = [
+            .next(10, .isLoading(true)),
+            .next(10, .isLoading(false)),
+            .next(10, .places([])),
+        ]
+        XCTAssertEqual(stateResultSubject.events, expectedStateEvents)
+    }
+
+    func test_givenPlacesViewModel_whenFetchPlacesEvent_and_overQuotaResponse_thenPlacesState() {
+        mockRepository = MockPlacesRepository(response: .overQuota)
+        viewModel = makeSUT()
+
+        let eventSubject: TestableObservable<PlacesViewModel.Event> = scheduler
+            .createHotObservable([
+                .next(10, PlacesViewModel.Event.fetchPlaces(location))
+            ])
+
+        let state = viewModel.transform(event: eventSubject.asObservable())
+        let stateResultSubject = scheduler.createObserver(PlacesViewModel.State.self)
+        state.bind(to: stateResultSubject).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        let expectedStateEvents: [Recorded<Event<PlacesViewModel.State>>] = [
+            .next(10, .isLoading(true)),
+            .next(10, .isLoading(false)),
+            .next(10, .error(.generic))
+        ]
+        XCTAssertEqual(stateResultSubject.events, expectedStateEvents)
     }
 }
 
 private extension PlacesViewModelTests {
-    func makeSUT() -> PlacesViewModel {
-        PlacesViewModel(repository: MockPlacesRepository(),
-                        router: MockPlacesCoordinator())
+    func makeSUT() -> PlacesViewModelInterface {
+        PlacesViewModel(repository: mockRepository,
+                        router: mockPlacesCoordinator)
+    }
+}
+
+extension PlacesViewModel.State: Equatable {
+    public static func == (lhs: PlacesViewModel.State, rhs: PlacesViewModel.State) -> Bool {
+        switch (lhs, rhs) {
+        case let (isLoading(isLoading1),isLoading(isLoading2)): return isLoading1 == isLoading2
+        case let (error(error1), error(error2)): return error1 == error2
+        case (places(_), places(_)): return true
+        case (idle, idle): return true
+        default: return false
+        }
     }
 }

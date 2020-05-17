@@ -19,7 +19,6 @@
 		981B51C5246AC3930092D9DD /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981B51C4246AC3930092D9DD /* PlacesViewController.swift */; };
 		981B51CA246AC3950092D9DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 981B51C9246AC3950092D9DD /* Assets.xcassets */; };
 		981B51CD246AC3950092D9DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 981B51CB246AC3950092D9DD /* LaunchScreen.storyboard */; };
-		981B51D8246AC3950092D9DD /* PlacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981B51D7246AC3950092D9DD /* PlacesTests.swift */; };
 		983099EA246E86AF00A0FEC7 /* GetPlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983099E9246E86AF00A0FEC7 /* GetPlacesResponse.swift */; };
 		983099EC246E86D300A0FEC7 /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983099EB246E86D300A0FEC7 /* OpeningHours.swift */; };
 		983D6D09246B4AF70089BE07 /* PlacesAlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983D6D08246B4AF70089BE07 /* PlacesAlertFactory.swift */; };
@@ -81,7 +80,6 @@
 		981B51CC246AC3950092D9DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		981B51CE246AC3950092D9DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		981B51D3246AC3950092D9DD /* PlacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlacesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		981B51D7246AC3950092D9DD /* PlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTests.swift; sourceTree = "<group>"; };
 		981B51D9246AC3950092D9DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		983099E9246E86AF00A0FEC7 /* GetPlacesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlacesResponse.swift; sourceTree = "<group>"; };
 		983099EB246E86D300A0FEC7 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
@@ -206,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				9882F7E024714B5C001C0B47 /* Places */,
-				981B51D7246AC3950092D9DD /* PlacesTests.swift */,
 				981B51D9246AC3950092D9DD /* Info.plist */,
 			);
 			path = PlacesTests;
@@ -631,7 +628,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9882F7DF24714B53001C0B47 /* PlacesViewModelTests.swift in Sources */,
-				981B51D8246AC3950092D9DD /* PlacesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

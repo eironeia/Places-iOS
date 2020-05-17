@@ -36,10 +36,7 @@ struct PlacesAlertFactory: PlacesAlertFactoryInterface {
         return alert
     }
 
-    func makeErrorAlert(error: PlacesViewModel.ErrorType) -> UIAlertController {
-
-        let (title, message) = error.information
-
+    func makeErrorAlert(title: String, message: String) -> UIAlertController {
         let alert = UIAlertController(
             title: title,
             message: message,
