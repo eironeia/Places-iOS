@@ -26,28 +26,28 @@ Using the device location, fetch the nearby places using Google Places API and d
 
 ## Documentation
 
-In order to run the app successfully, if running on simulator, make sure to enable location services at the beginning of the execution if possible for better results.
+⚠️ In order to run the app successfully, if running on simulator, make sure to enable location services at the beginning of the execution if possible for better results.
 
-![ImagesReadme/EnableLocation.png]
+![Enable location image](ImagesReadme/EnableLocation.png)
 
 Once the app start running, you might be asked to share your location in order to fetch nearby places around you. App handle all the possible status of the location authorization with a view placeholder in case some action is needed on user side.
 
-// Request location
-//Image of needs approve location
+![](ImagesReadme/RequestingPermission.png)
+![](ImagesReadme/ActionNeededView.png)
 
 If location is granted it will fetch the nearby places around your location and will show a list of places. The information displayed it's the name, availability (wether is open, closed or unknown) and the rating if provided by the API.
 
-// Show image of places list
+![](ImagesReadme/PlacesScene.png)
 
 In case request failed, or something goes wrong, there is a "Play" button on the top right of the screen which will retry fetching places from latest location.
 
 Places can be sorted currently over two criterias: Rating and Availability. That will be achivable when pressing the "Magnifying glass" on the top right.
 
-// Show image of sorting
+![](ImagesReadme/SortingMethods.png)
 
 When tapping a place will show a new scene with extra details.
 
-//Show place details
+![](ImagesReadme/PlacesDetailsScene.png)
 
 ## Architecture
 
