@@ -28,26 +28,31 @@ Using the device location, fetch the nearby places using Google Places API and d
 
 ⚠️ In order to run the app successfully, if running on simulator, make sure to enable location services at the beginning of the execution if possible for better results.
 
+⚠️ App requires an API key, if you don't provide an API Key for Google Places API the app will crash when making a request. If it doesn't crash, you will be using my API Key, which means, be gentle with the amount of request 🤑.
+
 ![Enable location image](ImagesReadme/EnableLocation.png)
 
 Once the app start running, you might be asked to share your location in order to fetch nearby places around you. App handle all the possible status of the location authorization with a view placeholder in case some action is needed on user side.
 
-![](ImagesReadme/RequestingPermission.png)
-![](ImagesReadme/ActionNeededView.png)
+<img src="ImagesReadme/RequestingPermission.png" width="300" /> <img src="ImagesReadme/ActionNeededView.png" width="300" />
 
 If location is granted it will fetch the nearby places around your location and will show a list of places. The information displayed it's the name, availability (wether is open, closed or unknown) and the rating if provided by the API.
 
-![](ImagesReadme/PlacesScene.png)
+<img src="ImagesReadme/PlacesScene.png" width="300" />
 
-In case request failed, or something goes wrong, there is a "Play" button on the top right of the screen which will retry fetching places from latest location.
+In case request failed, or something goes wrong, there is a "Play" ▶️ button on the top right of the screen which will retry fetching places from latest location.
 
-Places can be sorted currently over two criterias: Rating and Availability. That will be achivable when pressing the "Magnifying glass" on the top right.
+Places can be sorted currently over two criterias: Rating and Availability. That will be achivable when pressing the "Magnifying glass"🔎  on the top right.
 
-![](ImagesReadme/SortingMethods.png)
+<img src="ImagesReadme/SortingMethods.png" width="300" />
 
 When tapping a place will show a new scene with extra details.
 
-![](ImagesReadme/PlacesDetailsScene.png)
+<img src="ImagesReadme/PlacesDetailsScene.png" width="300" />
+
+🤠If for some reason API is not working, I have provided a commented code, which will run the app based on mock json. JSON is gathered from Google Places API. You will have to comment rxRequest code and then remove comments for mockRequest.
+
+<img src="ImagesReadme/RepositoryInfo.png" width="300" />
 
 ## Architecture
 
@@ -69,4 +74,6 @@ Other patterns that I have used are **Coordinator pattern** for handling the nav
 
 ## Future improvements
 
-- [ ] Abstract loader
+- [ ] Improve handling for determining when places are equal. On different scenario, I would store, places id, value received from Google Places API and compared them in order to make it satisfy Equatable protocol and making it more accurate the tests. 
+- [ ] Improve testability. I have shown how I would test the app, but I haven't tested as much as I would like to due to limitation of time. That would never happen on production code, it will be always time for this 😏.
+- [ ] Fix scroll to top. I was having some issue with the scroll to top after reloading, so currently is not scrolling to top after reloading. I might have an idea how to solve it, but I don't have more time to do so.
