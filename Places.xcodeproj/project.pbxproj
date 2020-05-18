@@ -35,6 +35,7 @@
 		987B2CE52471DF2C00455F56 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CE42471DF2C00455F56 /* UIAlertController+Extension.swift */; };
 		987B2CE72471FA1300455F56 /* MockPlacesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CE62471FA1300455F56 /* MockPlacesCoordinator.swift */; };
 		987B2CEA2471FBD300455F56 /* PlaceDetailsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CE92471FBD300455F56 /* PlaceDetailsViewControllerTests.swift */; };
+		987B2CED2471FD7D00455F56 /* DetailsCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B2CEC2471FD7D00455F56 /* DetailsCellTests.swift */; };
 		9882F7DF24714B53001C0B47 /* PlacesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9882F7DE24714B53001C0B47 /* PlacesViewModelTests.swift */; };
 		9888DB6A246AD7C400CCAE62 /* PlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */; };
 		9888DB6C246AD7D300CCAE62 /* PlacesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */; };
@@ -57,6 +58,7 @@
 		98DCCCD9246D33440063C049 /* MockAPI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 98DCCCD8246D33440063C049 /* MockAPI.bundle */; };
 		98DCCCDC246D78020063C049 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDB246D78020063C049 /* UIColor+Extension.swift */; };
 		98DCCCDE246D780D0063C049 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCCCDD246D780D0063C049 /* UIFont+Extension.swift */; };
+		98FABF6824720236008347AB /* MockTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FABF6724720236008347AB /* MockTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,7 @@
 		987B2CE42471DF2C00455F56 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		987B2CE62471FA1300455F56 /* MockPlacesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPlacesCoordinator.swift; sourceTree = "<group>"; };
 		987B2CE92471FBD300455F56 /* PlaceDetailsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewControllerTests.swift; sourceTree = "<group>"; };
+		987B2CEC2471FD7D00455F56 /* DetailsCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsCellTests.swift; sourceTree = "<group>"; };
 		9882F7DE24714B53001C0B47 /* PlacesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewModelTests.swift; sourceTree = "<group>"; };
 		9888DB69246AD7C400CCAE62 /* PlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewModel.swift; sourceTree = "<group>"; };
 		9888DB6B246AD7D300CCAE62 /* PlacesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesCoordinator.swift; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 		98DCCCDB246D78020063C049 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		98DCCCDD246D780D0063C049 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		98F92BFCD03F850C5D7C3CCF /* Pods-PlacesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.release.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.release.xcconfig"; sourceTree = "<group>"; };
+		98FABF6724720236008347AB /* MockTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTableViewController.swift; sourceTree = "<group>"; };
 		CA79768EFCDF256C9A08C43A /* Pods_Places.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Places.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6370E17B4A2E428D4CD08EA /* Pods_PlacesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlacesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -215,6 +219,7 @@
 		981B51D6246AC3950092D9DD /* PlacesTests */ = {
 			isa = PBXGroup;
 			children = (
+				98FABF662472022D008347AB /* Mocks */,
 				9882F7E024714B5C001C0B47 /* Places */,
 				987B2CE82471FBB500455F56 /* PlacesDetails */,
 				981B51D9246AC3950092D9DD /* Info.plist */,
@@ -261,9 +266,18 @@
 		987B2CE82471FBB500455F56 /* PlacesDetails */ = {
 			isa = PBXGroup;
 			children = (
+				987B2CEB2471FD6A00455F56 /* Cells */,
 				987B2CE92471FBD300455F56 /* PlaceDetailsViewControllerTests.swift */,
 			);
 			path = PlacesDetails;
+			sourceTree = "<group>";
+		};
+		987B2CEB2471FD6A00455F56 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				987B2CEC2471FD7D00455F56 /* DetailsCellTests.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		9882F7E024714B5C001C0B47 /* Places */ = {
@@ -409,6 +423,14 @@
 				98AFB2E2246D87FE00D8C4CA /* CirceRounded-Regular.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		98FABF662472022D008347AB /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				98FABF6724720236008347AB /* MockTableViewController.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		F37FDA2A53803BCDEED44D76 /* Pods */ = {
@@ -696,7 +718,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				987B2CEA2471FBD300455F56 /* PlaceDetailsViewControllerTests.swift in Sources */,
+				98FABF6824720236008347AB /* MockTableViewController.swift in Sources */,
 				987B2CE72471FA1300455F56 /* MockPlacesCoordinator.swift in Sources */,
+				987B2CED2471FD7D00455F56 /* DetailsCellTests.swift in Sources */,
 				9882F7DF24714B53001C0B47 /* PlacesViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
