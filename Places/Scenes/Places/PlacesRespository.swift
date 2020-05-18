@@ -16,12 +16,12 @@ struct PlacesRepository: PlacesRepositoryInterface, APIClientInterface {
     }
 
     func getPlaces(with location: Location) -> Single<GetPlacesResponse> {
-//        guard let request = GetPlacesEndpoint(location: location).request else {
-//            debugPrint("Invalid URL.")
-//            return .error(APIError.invalidURL)
-//        }
-//        return rxRequest(with: request)
-        mockRepository.getPlaces(with: location)
+        guard let request = GetPlacesEndpoint(location: location).request else {
+            debugPrint("Invalid URL.")
+            return .error(APIError.invalidURL)
+        }
+        return rxRequest(with: request)
+//        mockRepository.getPlaces(with: location)
     }
 }
 
